@@ -1766,27 +1766,33 @@
   var botTeaser = document.getElementById('botTeaser');
   if (botTeaser) {
     var botAudio = null;
+    var botBeeped = false;
+    function botTones(){
+      var t0 = botAudio.currentTime;
+      [[880, 0], [1320, 0.12]].forEach(function(n){
+        var o = botAudio.createOscillator();
+        var g = botAudio.createGain();
+        o.type = 'sine';
+        o.frequency.value = n[0];
+        g.gain.setValueAtTime(0.0001, t0 + n[1]);
+        g.gain.exponentialRampToValueAtTime(0.18, t0 + n[1] + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, t0 + n[1] + 0.3);
+        o.connect(g); g.connect(botAudio.destination);
+        o.start(t0 + n[1]); o.stop(t0 + n[1] + 0.32);
+      });
+      botBeeped = true;
+    }
     function botBeep(){
+      if (botBeeped) return;
       try {
         var AC = window.AudioContext || window.webkitAudioContext;
-        if (!AC) return false;
+        if (!AC) return;
         if (!botAudio) botAudio = new AC();
-        if (botAudio.state === 'suspended') { botAudio.resume(); }
-        if (botAudio.state !== 'running') return false;
-        var t0 = botAudio.currentTime;
-        [[880, 0], [1320, 0.11]].forEach(function(n){
-          var o = botAudio.createOscillator();
-          var g = botAudio.createGain();
-          o.type = 'sine';
-          o.frequency.value = n[0];
-          g.gain.setValueAtTime(0.0001, t0 + n[1]);
-          g.gain.exponentialRampToValueAtTime(0.07, t0 + n[1] + 0.02);
-          g.gain.exponentialRampToValueAtTime(0.0001, t0 + n[1] + 0.2);
-          o.connect(g); g.connect(botAudio.destination);
-          o.start(t0 + n[1]); o.stop(t0 + n[1] + 0.22);
-        });
-        return true;
-      } catch (e) { return false; }
+        if (botAudio.state === 'running') { botTones(); return; }
+        botAudio.resume().then(function(){
+          if (!botBeeped && botAudio.state === 'running') botTones();
+        }).catch(function(){});
+      } catch (e) {}
     }
     function botGreet(){
       if (botPanel.classList.contains('is-open')) return;
@@ -1803,14 +1809,14 @@
           if (i >= msg.length) clearInterval(typer);
         }, 28);
       }
-      if (!botBeep()) {
-        var events = ['pointerdown', 'keydown', 'touchstart', 'wheel', 'scroll'];
-        var once = function(){
-          events.forEach(function(ev){ window.removeEventListener(ev, once, true); });
-          botBeep();
-        };
-        events.forEach(function(ev){ window.addEventListener(ev, once, true); });
-      }
+      botBeep();
+      var unlock = ['pointerdown', 'mousedown', 'touchstart', 'touchend', 'keydown', 'click'];
+      var onGesture = function(){
+        botBeep();
+        if (botBeeped) unlock.forEach(function(ev){ window.removeEventListener(ev, onGesture, true); });
+      };
+      unlock.forEach(function(ev){ window.addEventListener(ev, onGesture, true); });
+      setTimeout(function(){ unlock.forEach(function(ev){ window.removeEventListener(ev, onGesture, true); }); }, 15000);
       setTimeout(function(){ botTeaser.classList.remove('is-visible'); }, 9000);
     }
     setTimeout(botGreet, 1000);
