@@ -200,6 +200,25 @@
     .tmap-pop .tpin-pop, .tmap-pop .tbar span.is-done, .tpin.is-next .tpin-pulse{ animation:none !important; }
   }
 
+
+  /* ---------- Live PR status ---------- */
+  :root{ --st-merged:#8250df; --st-open:#1a7f37; --st-closed:#b4232f; }
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --st-merged:#b58cff; --st-open:#4cc26a; --st-closed:#ff8a80; } }
+  :root[data-theme="dark"]{ --st-merged:#b58cff; --st-open:#4cc26a; --st-closed:#ff8a80; }
+  .pr-st{ display:inline-flex; align-items:center; gap:.35rem; margin-left:.55rem; padding:.1rem .45rem; font-family:var(--mono); font-size:.68rem; line-height:1.4; border:1px solid var(--st, var(--line)); color:var(--st, var(--muted)); white-space:nowrap; vertical-align:1px; }
+  .pr-st::before{ content:""; width:6px; height:6px; border-radius:50%; background:var(--st, var(--muted)); }
+  .pr-st--merged{ --st:var(--st-merged); }
+  .pr-st--open{ --st:var(--st-open); }
+  .pr-st--closed{ --st:var(--st-closed); }
+  .pr-st--draft, .pr-st--static{ --st:var(--muted); }
+  .pr-st.is-new{ animation:prStIn .4s ease both; }
+  @keyframes prStIn{ from{ opacity:0; transform:translateY(3px); } to{ opacity:1; transform:none; } }
+  .pr-live{ display:flex; align-items:center; gap:.5rem; margin:-.5rem 0 1.1rem; font-family:var(--mono); font-size:.72rem; color:var(--muted); }
+  .pr-live__dot{ width:7px; height:7px; border-radius:50%; background:var(--muted); }
+  .pr-live.is-live .pr-live__dot{ background:var(--st-open); animation:prLive 2s ease-in-out infinite; }
+  @keyframes prLive{ 0%,100%{ opacity:1; } 50%{ opacity:.3; } }
+  @media (prefers-reduced-motion:reduce){ .pr-st.is-new, .pr-live.is-live .pr-live__dot{ animation:none !important; } }
+
   /* ---------- Hero ---------- */
   .hero{ padding:4.5rem 0 3.5rem; position:relative; overflow:hidden; }
   .hero::after{
@@ -338,7 +357,7 @@
   .pr-ledger{ list-style:none; margin:0 0 1.1rem; padding:0; border-top:1px solid var(--line-soft); }
   .pr-ledger li{ border-bottom:1px solid var(--line-soft); }
   .pr-ledger__row{
-    display:grid; grid-template-columns:1.3fr 1.7fr auto; gap:1rem; align-items:center;
+    display:grid; grid-template-columns:minmax(0,1.75fr) minmax(0,1.5fr) auto; gap:1rem; align-items:center;
     padding:.8rem .5rem; text-decoration:none; color:var(--ink); border-left:2px solid transparent;
     transition:border-color .15s ease, background .15s ease;
   }
@@ -886,8 +905,8 @@
             <span class="pr-ledger__metric">+5% ARM64 TPC-C</span>
           </a></li>
           <li><a class="pr-ledger__row" href="https://github.com/facebook/rocksdb/pull/14190" target="_blank" rel="noopener">
-            <span class="pr-ledger__repo">facebook/rocksdb <span class="pr-ledger__num">#14190</span></span>
-            <span class="pr-ledger__desc">SVE enablement + runtime detection for ARM Linux builds (in review)</span>
+            <span class="pr-ledger__repo">facebook/rocksdb <span class="pr-ledger__num">#14190</span><span class="pr-st pr-st--static" data-static="1">In review</span></span>
+            <span class="pr-ledger__desc">SVE enablement + runtime detection for ARM Linux builds</span>
             <span class="pr-ledger__metric">up to 42% faster XXH3 hashing</span>
           </a></li>
           <li><a class="pr-ledger__row" href="https://github.com/crossbeam-rs/crossbeam/pull/1328" target="_blank" rel="noopener">
@@ -896,6 +915,7 @@
             <span class="pr-ledger__metric">&minus;18.6% steal latency</span>
           </a></li>
         </ul>
+        <p class="pr-live" id="prLive"><span class="pr-live__dot"></span><span id="prLiveText">Checking pull request status on GitHub...</span></p>
         <div class="chips"><span>ARM SVE/NEON</span><span>Rust</span><span>C++</span><span>RocksDB</span><span>TiDB</span><span>TiKV</span></div>
       </article>
 
@@ -1660,6 +1680,7 @@
     { patterns: ['samsung'], reply: "At Samsung R&D Institute Bangalore (2022 to 2024, about two years) he was a Senior Engineer. He owned a multi-zone AWS S3 data lake and its ETL layer, cut reporting latency by 50% with Spark and Snowflake, and cut compute and storage cost by 67%. He also automated releases with Lambda, Step Functions and CloudFormation and prototyped Dremio for federated SQL." },
     { patterns: ['hsbc'], reply: "At HSBC Pune (2021 to 2022, about one year) he started as a Trainee Software Engineer. He built a Python sync framework between AWS S3 and on-premise storage with 99.9% data consistency, with checksum validation and retry logic, and cut storage footprint 40% and transfer time 60% on 5TB datasets." },
     { patterns: ['birthday', 'date of birth', 'dob', 'born', 'birth place', 'birthplace', 'when was he born', 'how old', 'his age', 'what age', 'zodiac'], reply: "Mohak was born on 13 July 1999 in Meerut, Uttar Pradesh, so he is " + botAge() + " years old." },
+    { patterns: ['merged', 'pr status', 'pull request status', 'prs merged', 'are the prs', 'status of his pr', 'live status'], reply: "His five open-source pull requests are listed in the Projects section, and each row shows its live status from GitHub (merged, open or closed), so it is always current. I can't see the live status from here, so check the row for the latest." },
     { patterns: ['hometown', 'where is he from', 'where are you from', 'where he is from', 'native place', 'native', 'grew up', 'home town', 'which city is he from', 'belong to'], reply: "His hometown is Meerut, Uttar Pradesh, where he was born. He is now based in Bangalore." },
     { patterns: ['languages does he speak', 'speak', 'hindi', 'english', 'mother tongue', 'spoken language'], reply: "He speaks English and Hindi." },
     { patterns: ['japan', 'fujitsu office', 'business trip'], reply: "He went on a business trip to Fujitsu's Japan office, with some time to see Tokyo and Kyoto. Photos are in the 'On the ground' section near the bottom." },
@@ -1839,6 +1860,7 @@
     "Birth: born on 13 July 1999 in Meerut, Uttar Pradesh. He is happy to share his birthday, birthplace and age; work out his age from today's date.",
     "Interests: travelling, concerts, movies and fitness; also road trips and picking up adventure activities like surfing. Favourite food is Italian, Chinese and Punjabi.",
     "Travel: has been to Andaman, Leh Ladakh, Kashmir, Japan (including a business trip to Fujitsu's Japan office, photos are on the site), Kanyakumari, Meghalaya (Shillong, Cherrapunji, Dawki), Gujarat, Mumbai, Manali, Kasol, Varkala, Coorg, Madurai, Chennai, Goa, Chikmagalur, Hampi, Tirupati, Munnar, Mathura, Vrindavan, Dehradun, Rishikesh, Udupi, Mysore, Almora, Ujjain, Khatu Shyam, Kodaikanal, Ayodhya, Ooty, Mcleod Ganj, Gokarna and Amritsar. Has visited 11 of the 12 jyotirlingas and 3 of the 4 dhams; Baidyanath in Jharkhand and Jagannath Puri are the remaining ones.",
+    "Live PR status: the Projects section lists his five open-source pull requests and each row shows a live status badge (merged, open or closed) pulled from GitHub. You cannot see the current status, so never claim whether a PR is merged; point to the badge on the row.",
     "Travel map: the site has an interactive travel map of India in the Places I've been section with pins for jyotirlingas, Char Dham and trips, and progress trackers. Jyotirlingas visited (11 of 12): Somnath, Nageshwar (Dwarka), Mallikarjuna (Srisailam), Mahakaleshwar (Ujjain), Omkareshwar, Kedarnath, Bhimashankar, Kashi Vishwanath (Varanasi), Trimbakeshwar (Nashik), Rameshwaram, Grishneshwar (Ellora); Baidyanath (Deoghar, Jharkhand) is still left. Char Dham visited (3 of 4): Badrinath, Dwarka, Rameshwaram; Jagannath Puri is still left.",
     "Story: started out coding in Python, got drawn to data, which led to building large data pipelines, and then down the stack into ARM performance work on MONAKA. Python is his strongest language.",
     "Goals: open to relocating, wants to keep growing in tech and grow into leadership at a good organization.",
@@ -2246,6 +2268,81 @@
     } else {
       section.classList.add('tmap-pop');
     }
+  })();
+
+
+  // live PR status
+  (function(){
+    var rows = document.querySelectorAll('.pr-ledger__row');
+    var liveEl = document.getElementById('prLive');
+    var liveText = document.getElementById('prLiveText');
+    if (!rows.length || !liveEl) return;
+    var items = [];
+    rows.forEach(function(row){
+      var m = (row.getAttribute('href') || '').match(/github\.com\/([^\/]+\/[^\/]+)\/pull\/(\d+)/);
+      if (m) items.push({ row: row, repo: m[1], num: m[2] });
+    });
+    function ago(iso){
+      var s = Math.max(0, (Date.now() - new Date(iso).getTime()) / 1000);
+      if (s < 3600) return Math.max(1, Math.round(s / 60)) + 'm ago';
+      if (s < 86400) return Math.round(s / 3600) + 'h ago';
+      if (s < 86400 * 30) return Math.round(s / 86400) + 'd ago';
+      if (s < 86400 * 365) return Math.round(s / (86400 * 30)) + 'mo ago';
+      return Math.round(s / (86400 * 365)) + 'y ago';
+    }
+    function describe(d){
+      if (d.merged_at) return { cls: 'merged', text: 'Merged ' + ago(d.merged_at) };
+      if (d.state === 'closed') return { cls: 'closed', text: 'Closed ' + ago(d.closed_at || d.updated_at) };
+      if (d.draft) return { cls: 'draft', text: 'Draft, updated ' + ago(d.updated_at) };
+      return { cls: 'open', text: 'Open, updated ' + ago(d.updated_at) };
+    }
+    function paint(results, checkedAt){
+      var ok = 0;
+      items.forEach(function(it){
+        var d = results[it.repo + '#' + it.num];
+        if (!d) return;
+        ok++;
+        var holder = it.row.querySelector('.pr-ledger__repo');
+        var old = holder.querySelector('.pr-st');
+        if (old) old.remove();
+        var info = describe(d);
+        var pill = document.createElement('span');
+        pill.className = 'pr-st pr-st--' + info.cls + ' is-new';
+        pill.textContent = info.text;
+        pill.title = d.title || '';
+        holder.appendChild(pill);
+      });
+      if (ok) {
+        liveEl.classList.add('is-live');
+        liveText.textContent = 'Live from GitHub, checked ' + ago(checkedAt);
+      } else {
+        liveText.textContent = 'Live status unavailable right now. Each row links to its pull request.';
+      }
+    }
+    var CACHE_KEY = 'mg-pr-cache';
+    var TTL = 10 * 60 * 1000;
+    var cached = null;
+    try { cached = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null'); } catch (e) {}
+    if (cached && cached.data && Date.now() - cached.t < TTL) { paint(cached.data, cached.t); return; }
+    if (typeof fetch !== 'function') { liveText.textContent = 'Each row links to its pull request on GitHub.'; return; }
+    Promise.all(items.map(function(it){
+      return fetch('https://api.github.com/repos/' + it.repo + '/pulls/' + it.num, { headers: { 'Accept': 'application/vnd.github+json' } })
+        .then(function(r){ if (!r.ok) throw new Error(String(r.status)); return r.json(); })
+        .then(function(d){ return { key: it.repo + '#' + it.num, d: { state: d.state, merged_at: d.merged_at, closed_at: d.closed_at, updated_at: d.updated_at, draft: d.draft, title: d.title } }; })
+        .catch(function(){ return null; });
+    })).then(function(list){
+      var data = {};
+      list.forEach(function(x){ if (x) data[x.key] = x.d; });
+      var now = Date.now();
+      if (Object.keys(data).length) {
+        try { localStorage.setItem(CACHE_KEY, JSON.stringify({ t: now, data: data })); } catch (e) {}
+        paint(data, now);
+      } else if (cached && cached.data) {
+        paint(cached.data, cached.t);
+      } else {
+        paint({}, now);
+      }
+    });
   })();
 
   // konami code easter egg
