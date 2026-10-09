@@ -1707,7 +1707,7 @@
     "Travel: has been to Andaman, Leh Ladakh, Kashmir, Japan (including a business trip to Fujitsu's Japan office, photos are on the site), Kanyakumari, Meghalaya (Shillong, Cherrapunji, Dawki), Gujarat, Mumbai, Manali and Kasol. Has visited 11 of the 12 jyotirlingas and 3 of the 4 dhams; Baidyanath in Jharkhand and Jagannath Puri are the remaining ones.",
     "Story: started out coding in Python, got drawn to data, which led to building large data pipelines, and then down the stack into ARM performance work on MONAKA. Python is his strongest language.",
     "Goals: open to relocating, wants to keep growing in tech and grow into leadership at a good organization.",
-    "FORMAT RULE: by default answer in short plain sentences. If the visitor asks for bullet points, bullets, points or a list, answer with each point on its own line starting with a hyphen and a space, one short line per point, at most 8 points, no bold or other markdown, and no lead-in sentence.",
+    "FORMAT RULE: by default answer in short plain sentences. If the visitor asks for bullet points, bullets, points or a list, answer with each point on its own line starting with a hyphen and a space, one short line per point, at most 8 points, no bold or other markdown, and no lead-in sentence. If the visitor only asks you to reformat (for example give in bullet points) apply that to your previous answer instead of asking what they mean.",
     "PRIVACY RULE: for salary, compensation, family, parents, relationships, marital status, age, birthday, home address, phone number or any similar private question, reply only that this is personal information that cannot be shared, and offer mohakgoel1@gmail.com for professional topics.",
     "Contact: mohakgoel1@gmail.com, plus GitHub and LinkedIn links in the footer. Open to new opportunities. A resume download button is in the hero."
   ].join("\n");
@@ -1729,6 +1729,10 @@
     setTimeout(function(){
       if (typing) typing.remove();
       var localAnswer = botFindReply(q);
+      var lastBot = botTurns.length ? botTurns[botTurns.length - 1] : null;
+      if (botWantsBullets(q) && localAnswer === botFallback && lastBot && lastBot.role === 'assistant') localAnswer = lastBot.content;
+      botTurns.push({ role: 'user', content: q });
+      botTurns.push({ role: 'assistant', content: localAnswer });
       botAddMessage(botWantsBullets(q) ? botToBullets(localAnswer) : localAnswer, 'bot');
       botSetBusy(false);
     }, 450 + Math.random() * 350);
