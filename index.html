@@ -407,6 +407,10 @@
   .bot-msg{ max-width:85%; padding:.55rem .75rem; font-size:.88rem; line-height:1.45; }
   .bot-msg--bot{ align-self:flex-start; background:var(--surface-2); color:var(--ink); border:1px solid var(--line-soft); }
   .bot-msg--user{ align-self:flex-end; background:var(--accent); color:var(--accent-ink); }
+  .bot-msg ul{ margin:.15rem 0 0; padding-left:1.1rem; list-style:disc; }
+  .bot-msg li::marker{ color:var(--accent); }
+  .bot-msg li{ margin:.22rem 0; }
+  .bot-msg p{ margin:0 0 .3rem; }
   .bot-msg--typing{ font-family:var(--mono); color:var(--muted); }
   .bot-panel__quick{ display:flex; flex-wrap:wrap; gap:.4rem; padding:0 1rem .8rem; }
   .bot-quick-btn{ font-size:.78rem; padding:.35rem .7rem; border:1px solid var(--line); color:var(--muted); }
@@ -1645,10 +1649,38 @@
     if (bestReply) return bestReply;
     return botSemantic(text) || botFallback;
   }
+  function botRender(el, text){
+    el.textContent = '';
+    var lines = String(text).split('\n');
+    var list = null;
+    lines.forEach(function(line){
+      var m = line.match(/^\s*[-*\u2022]\s+(.*)$/);
+      if (m) {
+        if (!list) { list = document.createElement('ul'); el.appendChild(list); }
+        var li = document.createElement('li');
+        li.textContent = m[1];
+        list.appendChild(li);
+      } else if (line.trim()) {
+        list = null;
+        var para = document.createElement('p');
+        para.textContent = line;
+        el.appendChild(para);
+      }
+    });
+  }
+  function botWantsBullets(q){
+    return /\b(bullet|bullets|bulleted|bullet-?points?|pointwise|point wise|points|in points|as a list|list form)\b/i.test(q);
+  }
+  function botToBullets(reply){
+    var guarded = reply.replace(/Dr\. /g, 'Dr\u0001 ');
+    var parts = guarded.split(/(?<=[.!?])\s+/).map(function(t){ return t.replace(/\u0001/g, '.').trim(); }).filter(Boolean);
+    if (parts.length < 2) return reply;
+    return parts.map(function(t){ return '- ' + t; }).join('\n');
+  }
   function botAddMessage(text, who){
     var row = document.createElement('div');
     row.className = 'bot-msg bot-msg--' + who;
-    row.textContent = text;
+    if (who === 'bot') botRender(row, text); else row.textContent = text;
     botMessages.appendChild(row);
     botMessages.scrollTop = botMessages.scrollHeight;
   }
@@ -1674,6 +1706,7 @@
     "Travel: has been to Andaman, Leh Ladakh, Kashmir, Japan (including a business trip to Fujitsu's Japan office, photos are on the site), Kanyakumari, Meghalaya (Shillong, Cherrapunji, Dawki), Gujarat, Mumbai, Manali and Kasol. Has visited 11 of the 12 jyotirlingas and 3 of the 4 dhams; Baidyanath in Jharkhand and Jagannath Puri are the remaining ones.",
     "Story: started out coding in Python, got drawn to data, which led to building large data pipelines, and then down the stack into ARM performance work on MONAKA. Python is his strongest language.",
     "Goals: open to relocating, wants to keep growing in tech and grow into leadership at a good organization.",
+    "FORMAT RULE: by default answer in short plain sentences. If the visitor asks for bullet points, bullets, points or a list, answer with each point on its own line starting with a hyphen and a space, one short line per point, at most 8 points, no bold or other markdown, and no lead-in sentence.",
     "PRIVACY RULE: for salary, compensation, family, parents, relationships, marital status, age, birthday, home address, phone number or any similar private question, reply only that this is personal information that cannot be shared, and offer mohakgoel1@gmail.com for professional topics.",
     "Contact: mohakgoel1@gmail.com, plus GitHub and LinkedIn links in the footer. Open to new opportunities. A resume download button is in the hero."
   ].join("\n");
@@ -1694,7 +1727,8 @@
   function botLocalReply(q, typing){
     setTimeout(function(){
       if (typing) typing.remove();
-      botAddMessage(botFindReply(q), 'bot');
+      var localAnswer = botFindReply(q);
+      botAddMessage(botWantsBullets(q) ? botToBullets(localAnswer) : localAnswer, 'bot');
       botSetBusy(false);
     }, 450 + Math.random() * 350);
   }
@@ -1728,7 +1762,7 @@
 
     function show(answer){
       typing.classList.remove('bot-msg--typing');
-      typing.textContent = answer;
+      botRender(typing, answer);
       botTurns.push({ role: 'user', content: q });
       botTurns.push({ role: 'assistant', content: answer });
       botMessages.scrollTop = botMessages.scrollHeight;
@@ -1742,7 +1776,7 @@
         modelTier: 'default',
         onText: function(u){
           typing.classList.remove('bot-msg--typing');
-          typing.textContent = u.text;
+          botRender(typing, u.text);
           botMessages.scrollTop = botMessages.scrollHeight;
         }
       }).then(function(res){
@@ -1752,7 +1786,7 @@
         if (code === 'not_granted' || code === 'sampling_disabled' || code === 'not_declared' || code === 'capability_disabled' || code === 'capability_removed') botSample = null;
         if (e && e.text && code !== 'refused') {
           typing.classList.remove('bot-msg--typing');
-          typing.textContent = e.text;
+          botRender(typing, e.text);
           botSetBusy(false);
         } else {
           botLocalReply(q, typing);
