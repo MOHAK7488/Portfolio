@@ -1519,6 +1519,9 @@
   var botStarted = false;
 
   var botKB = [
+    { patterns: ['fujitsu'], reply: "At Fujitsu Research of India (since June 2024) he is a Software Engineer II leading data-processing design for MONAKA. He improved multi-terabyte processing efficiency by 40% with PySpark and Airflow, lifted time-series query performance by 35% with Spark SQL and Delta Lake, and does ARM performance work on TiDB, TiKV and RocksDB." },
+    { patterns: ['samsung'], reply: "At Samsung R&D Institute Bangalore (2022 to 2024, about two years) he was a Senior Engineer. He owned a multi-zone AWS S3 data lake and its ETL layer, cut reporting latency by 50% with Spark and Snowflake, and cut compute and storage cost by 67%. He also automated releases with Lambda, Step Functions and CloudFormation and prototyped Dremio for federated SQL." },
+    { patterns: ['hsbc'], reply: "At HSBC Pune (2021 to 2022, about one year) he started as a Trainee Software Engineer. He built a Python sync framework between AWS S3 and on-premise storage with 99.9% data consistency, with checksum validation and retry logic, and cut storage footprint 40% and transfer time 60% on 5TB datasets." },
     { patterns: ['database', 'databases', 'db ', 'dbs', 'datastore', 'data store', 'nosql', 'sql database', 'storage engine', 'rocksdb', 'tidb', 'tikv', 'mongodb', 'cassandra', 'snowflake', 'postgres', 'mysql', 'redis', 'vector database', 'vector db'], reply: "Databases and storage he has worked with: RocksDB, TiDB and TiKV (benchmarking and tuning on ARM vs x86), MongoDB, Cassandra, Snowflake, Delta Lake, AWS S3 data lakes, Dremio for federated SQL, and vector search through Milvus (knowhere). On the SQL side he works daily with Spark SQL and Snowflake." },
     { patterns: ['pipeline', 'etl', 'spark', 'airflow', 'data engineering', 'data engineer', 'kafka', 'nifi', 'big data', 'data lake', 'delta lake', 'streaming', 'batch'], reply: "Data engineering is the core of his background. At Fujitsu he built distributed ETL with PySpark and Airflow (40% better multi-terabyte processing efficiency), Spark SQL and Delta Lake cubes (35% faster time-series queries), and NiFi ingestion. At Samsung he owned an AWS data lake and Spark/Snowflake ETL on 5TB+ of daily data, cutting reporting latency by 50% and compute cost by 67%." },
     { patterns: ['aws', 'cloud', 's3', 'glue', 'lambda', 'step functions', 'cloudformation', 'kubernetes', 'k8s', 'gitops', 'devops', 'ci/cd', 'docker'], reply: "On cloud he has built on AWS (S3 with IAM/STS, Glue, Lambda, Step Functions, CloudFormation), moved workflows from Azkaban to Airflow on Kubernetes with GitOps, and uses GitLab CI/CD. He also holds the AZ-900 Azure certification." },
@@ -1527,8 +1530,6 @@
     { patterns: ['impact', 'result', 'metric', 'achieve', 'accomplish', 'numbers', 'improved', 'reduced', 'optimiz'], reply: "Highlights: 67% lower compute and storage cost and 50% lower reporting latency at Samsung, 40% better multi-terabyte processing efficiency and 35% faster time-series queries at Fujitsu, about 2x faster retrieval from his ARM SVE kernels in knowhere, up to 42% faster XXH3 hashing in RocksDB, and 18.6% lower steal latency in crossbeam." },
     { patterns: ['strength', 'why hire', 'why should', 'what makes', 'special', 'unique', 'stand out', 'good fit'], reply: "He is unusual in covering both ends of the stack: he designs large data pipelines and also tunes the low-level systems underneath them on ARM. His work has measurable results and ships upstream into projects like RocksDB, TiKV, crossbeam and Milvus." },
     { patterns: ['current role', 'current job', 'currently', 'right now', 'working on now', 'what does he do', 'what do you do', 'day to day'], reply: "He is a Software Engineer II at Fujitsu Research of India, leading data-processing design for MONAKA, a next-generation ARM-based chip for data centers, and benchmarking and tuning distributed databases on it." },
-    { patterns: ['samsung'], reply: "At Samsung R&D Institute Bangalore he was a Senior Engineer who owned a multi-zone AWS S3 data lake and its ETL layer. Spark and Snowflake pipelines cut reporting latency by 50%, optimization cut compute and storage cost by 67%, and he automated releases with Lambda, Step Functions and CloudFormation. He also prototyped Dremio for federated SQL." },
-    { patterns: ['hsbc'], reply: "He started at HSBC in Pune as a Trainee Software Engineer, building a Python sync framework between AWS S3 and on-premise storage with checksum validation and retry logic (99.9% consistency) and transfer pipelines that cut storage 40% and transfer time 60% on 5TB datasets." },
     { patterns: ['flight', 'flight project', 'flight tracker', 'price tracker'], reply: "The flight price tracker is a full-stack app (React, Supabase, Amadeus API, GitHub Actions) that watches fares and sends a WhatsApp alert when a tracked route drops." },
     { patterns: ['churn', 'churn project', 'churn classifier', 'streamlit', 'telco'], reply: "The telco churn classifier is a Streamlit app comparing five models on the Telco customer-churn dataset, built for a BITS M.Tech assignment. There is a live app link in the Projects section." },
     { patterns: ['hotel', 'hotel project', 'hotel food ordering', 'food ordering', 'room service'], reply: "The hotel food ordering platform is a completed project: a guest-facing ordering flow plus a manager dashboard for room service, with session persistence and real-time order updates (React, Supabase, Netlify)." },
@@ -1538,9 +1539,6 @@
     { patterns: ['who is', 'whoami', 'who are you', 'about mohak', 'introduce', 'tell me about him', 'tell me about mohak', 'background'], reply: "Mohak Goel is a Software Engineer II at Fujitsu Research of India, working on MONAKA, a next-generation ARM-based chip for data centers. He's based in Bangalore, India." },
     { patterns: ['total experience', 'how much experience', 'how many years', 'years of experience', 'how experienced', 'how long has he worked', 'overall experience', 'total exp'], reply: "Rather than a number, here is what he has done. Data engineering: PySpark and Airflow ETL on multi-terabyte data (+40% efficiency), Spark SQL and Delta Lake cubes (+35% query performance), an AWS S3 data lake with Spark and Snowflake ETL (50% lower reporting latency, 67% lower compute and storage cost), and AWS to on-premise data sync at 99.9% consistency. Systems work: ARM SVE and NEON performance tuning on MONAKA, with PRs merged or in review across Milvus knowhere, TiKV yatp, crossbeam and RocksDB. Ask about a specific company (Fujitsu, Samsung or HSBC) and I will give the time he spent there." },
     { patterns: ['experience', 'work history', 'career', 'background'], reply: "Mohak builds data and performance systems end to end. At Fujitsu Research of India he leads data-processing design for MONAKA and optimizes open-source software for ARM, at Samsung R&D Institute Bangalore he owned a multi-zone AWS data lake and its ETL layer, and at HSBC he built the data-sync tooling between AWS and on-premise storage. See the Experience section for details on each." },
-    { patterns: ['fujitsu'], reply: "At Fujitsu Research of India (since June 2024) he is a Software Engineer II leading data-processing design for MONAKA. He improved multi-terabyte processing efficiency by 40% with PySpark and Airflow, lifted time-series query performance by 35% with Spark SQL and Delta Lake, and does ARM performance work on TiDB, TiKV and RocksDB." },
-    { patterns: ['samsung'], reply: "At Samsung R&D Institute Bangalore (2022 to 2024, about two years) he was a Senior Engineer. He owned a multi-zone AWS S3 data lake and its ETL layer, cut reporting latency by 50% with Spark and Snowflake, and cut compute and storage cost by 67%." },
-    { patterns: ['hsbc'], reply: "At HSBC Pune (2021 to 2022, about one year) he started as a Trainee Software Engineer. He built a Python sync framework between AWS S3 and on-premise storage with 99.9% data consistency, and cut storage footprint 40% and transfer time 60% on 5TB datasets." },
     { patterns: ['skill', 'tech stack', 'language', 'tool', 'framework', 'good at', 'know how to', 'technologies', 'programming'], reply: "His stack spans systems work (C/C++, ARM NEON/SVE, CUDA, LLVM) and data engineering (PySpark, Airflow, Kafka, Snowflake, AWS, Kubernetes). Full breakdown in the Skills section." },
     { patterns: ['project', 'github', 'open source', 'rocksdb', 'crossbeam', 'tikv', 'knowhere', 'milvus', 'built', 'built anything'], reply: "He's contributed ARM SVE optimizations to Milvus, TiKV's yatp scheduler, and crossbeam, plus an open PR on facebook/rocksdb. Personal builds include a flight price tracker, a churn classifier, and a hotel ordering platform. See the Projects section for links." },
     { patterns: ['education', 'degree', 'mtech', 'm.tech', 'btech', 'b.tech', 'bits', 'college', 'university', 'studied', 'study'], reply: "M.Tech in AI/ML from BITS Pilani (WILP), and a B.Tech in Computer Science from Dr. A.P.J. Abdul Kalam Technical University." },
@@ -1620,45 +1618,72 @@
       botSetBusy(false);
     }, 450 + Math.random() * 350);
   }
+  var BOT_API_URL = '';
+
+  function botRemote(history){
+    return fetch(BOT_API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: history })
+    }).then(function(r){
+      if (!r.ok) throw new Error('status ' + r.status);
+      return r.json();
+    }).then(function(d){
+      if (!d || !d.text) throw new Error('empty');
+      return d.text;
+    });
+  }
   function botAsk(text){
-    var q = text.trim();
+    var q = text.trim().slice(0, 500);
     if (!q || botBusy) return;
     botSetBusy(true);
-    botAddMessage(q.slice(0, 500), 'user');
+    botAddMessage(q, 'user');
     botInput.value = '';
     var typing = document.createElement('div');
     typing.className = 'bot-msg bot-msg--bot bot-msg--typing';
     typing.textContent = 'Thinking...';
     botMessages.appendChild(typing);
     botMessages.scrollTop = botMessages.scrollHeight;
-    if (!botSample) { botLocalReply(q, typing); return; }
-    var turns = [{ role: 'user', content: BOT_PROFILE + "\nToday's date: " + new Date().toDateString() }].concat(botTurns.slice(-8), [{ role: 'user', content: q.slice(0, 500) }]);
-    botSample(turns, {
-      cache: false,
-      modelTier: 'quick',
-      onText: function(u){
-        typing.classList.remove('bot-msg--typing');
-        typing.textContent = u.text;
-        botMessages.scrollTop = botMessages.scrollHeight;
-      }
-    }).then(function(res){
+    var history = botTurns.slice(-8).concat([{ role: 'user', content: q }]);
+
+    function show(answer){
       typing.classList.remove('bot-msg--typing');
-      typing.textContent = res.text;
-      botTurns.push({ role: 'user', content: q.slice(0, 500) });
-      botTurns.push({ role: 'assistant', content: res.text });
+      typing.textContent = answer;
+      botTurns.push({ role: 'user', content: q });
+      botTurns.push({ role: 'assistant', content: answer });
       botMessages.scrollTop = botMessages.scrollHeight;
       botSetBusy(false);
-    }).catch(function(e){
-      var code = e && e.code;
-      if (code === 'not_granted' || code === 'sampling_disabled' || code === 'not_declared' || code === 'capability_disabled' || code === 'capability_removed') botSample = null;
-      if (e && e.text && code !== 'refused') {
-        typing.classList.remove('bot-msg--typing');
-        typing.textContent = e.text;
-        botSetBusy(false);
-      } else {
-        botLocalReply(q, typing);
-      }
-    });
+    }
+    function viaSample(){
+      if (!botSample) { botLocalReply(q, typing); return; }
+      var turns = [{ role: 'user', content: BOT_PROFILE + "\nToday's date: " + new Date().toDateString() }].concat(history);
+      botSample(turns, {
+        cache: false,
+        modelTier: 'default',
+        onText: function(u){
+          typing.classList.remove('bot-msg--typing');
+          typing.textContent = u.text;
+          botMessages.scrollTop = botMessages.scrollHeight;
+        }
+      }).then(function(res){
+        show(res.text);
+      }).catch(function(e){
+        var code = e && e.code;
+        if (code === 'not_granted' || code === 'sampling_disabled' || code === 'not_declared' || code === 'capability_disabled' || code === 'capability_removed') botSample = null;
+        if (e && e.text && code !== 'refused') {
+          typing.classList.remove('bot-msg--typing');
+          typing.textContent = e.text;
+          botSetBusy(false);
+        } else {
+          botLocalReply(q, typing);
+        }
+      });
+    }
+    if (BOT_API_URL) {
+      botRemote(history).then(show).catch(viaSample);
+    } else {
+      viaSample();
+    }
   }
   function botInit(){
     if (botStarted) return;
