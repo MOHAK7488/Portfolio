@@ -1311,16 +1311,6 @@
     toastEl.classList.remove('is-visible');
   });
 
-  // returning-visitor toast
-  try {
-    var visits = parseInt(localStorage.getItem('mg-visits') || '0', 10) + 1;
-    localStorage.setItem('mg-visits', String(visits));
-    if (visits > 1) {
-      var visitMsg = visits === 2 ? "Welcome back, good to see you again." : 'Welcome back, visit #' + visits + '.';
-      setTimeout(function(){ showToast(visitMsg, 5000); }, 900);
-    }
-  } catch (e) {}
-
   // section dot-nav
   var dotNav = document.getElementById('dotNav');
   var dotSections = [
