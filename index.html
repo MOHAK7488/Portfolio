@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mohak Goel: Data Engineer &amp; ARM Performance Engineer</title>
 <meta name="description" content="Mohak Goel, Software Engineer II at Fujitsu Research of India, working on distributed data pipelines and ARM performance engineering.">
@@ -1762,8 +1765,6 @@
   // bot greeting: beep + typed hello
   var botTeaser = document.getElementById('botTeaser');
   if (botTeaser) {
-    var botGreeted = false;
-    try { botGreeted = sessionStorage.getItem('mg-greeted') === '1'; } catch (e) {}
     var botAudio = null;
     function botBeep(){
       try {
@@ -1812,10 +1813,7 @@
       }
       setTimeout(function(){ botTeaser.classList.remove('is-visible'); }, 9000);
     }
-    if (!botGreeted) {
-      try { sessionStorage.setItem('mg-greeted', '1'); } catch (e) {}
-      setTimeout(botGreet, 1400);
-    }
+    setTimeout(botGreet, 1000);
     botTeaser.addEventListener('click', function(){ botTeaser.classList.remove('is-visible'); openBot(); });
     botToggle.addEventListener('click', function(){ botTeaser.classList.remove('is-visible'); });
   }
