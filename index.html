@@ -131,6 +131,75 @@
     .nav-toggle{ display:grid; }
   }
 
+
+  /* ---------- Travel map ---------- */
+  .travel-tools{ display:flex; gap:.5rem; flex-wrap:wrap; margin-bottom:1.4rem; }
+  .travel-tools button{ font-size:.82rem; padding:.4rem .85rem; border:1px solid var(--line); color:var(--muted); background:transparent; cursor:pointer; transition:color .15s ease, border-color .15s ease, background .15s ease; }
+  .travel-tools button:hover{ color:var(--ink); border-color:var(--ink); }
+  .travel-tools button.is-on{ color:var(--accent-ink); background:var(--accent); border-color:var(--accent); }
+  .travel-grid{ display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,1fr); gap:2.4rem; align-items:start; }
+  .tmap-wrap{ position:relative; border:1px solid var(--line); background:var(--surface); padding:.6rem; }
+  .tmap{ display:block; width:100%; height:auto; }
+  .tmap-grid line{ stroke:var(--line-soft); stroke-width:1; stroke-dasharray:2 5; }
+  .tmap-india{ fill:var(--surface-2); stroke:var(--teal); stroke-width:1.3; stroke-linejoin:round; }
+  .tmap-land ellipse{ fill:var(--surface-2); stroke:var(--teal); stroke-width:1; }
+  .tmap-sea{ font-family:var(--mono); font-size:10px; fill:var(--muted); opacity:.7; letter-spacing:.06em; }
+  .tpin{ cursor:pointer; outline:none; transition:opacity .25s ease; }
+  .tpin .tpin-body{ transform-box:fill-box; transform-origin:center; transition:transform .2s ease; }
+  .tpin .tpin-halo{ fill:none; stroke:var(--accent); stroke-width:1.5; opacity:0; transform-box:fill-box; transform-origin:center; transition:opacity .2s ease, transform .2s ease; }
+  .tpin:hover .tpin-body, .tpin:focus-visible .tpin-body, .tpin.is-hot .tpin-body{ transform:scale(1.55); }
+  .tpin:hover .tpin-halo, .tpin:focus-visible .tpin-halo, .tpin.is-hot .tpin-halo{ opacity:.9; transform:scale(1.6); }
+  .tpin--jl .tpin-body{ fill:var(--accent); stroke:var(--surface); stroke-width:1.5; }
+  .tpin--trip .tpin-body{ fill:var(--teal); stroke:var(--surface); stroke-width:1.5; }
+  .tpin--dham .tpin-body{ fill:none; stroke:var(--ink); stroke-width:1.8; }
+  .tpin.is-next .tpin-body{ fill:var(--surface); stroke:var(--accent); stroke-width:2; stroke-dasharray:3 2; }
+  .tpin--dham.is-next .tpin-body{ stroke:var(--accent); }
+  .tpin.is-next .tpin-pulse{ fill:none; stroke:var(--accent); stroke-width:1.5; transform-box:fill-box; transform-origin:center; animation:tpinPulse 2s ease-out infinite; }
+  @keyframes tpinPulse{ 0%{ transform:scale(.8); opacity:.9; } 100%{ transform:scale(2.6); opacity:0; } }
+  .tpin.is-dim{ opacity:.12; pointer-events:none; }
+  .tmap-pop .tpin-pop{ animation:tpinPop .5s cubic-bezier(.2,1.4,.4,1) both; animation-delay:calc(var(--i) * 45ms); transform-box:fill-box; transform-origin:center; }
+  @keyframes tpinPop{ 0%{ opacity:0; transform:scale(0); } 100%{ opacity:1; transform:scale(1); } }
+  .tmap-tip{ position:absolute; z-index:5; pointer-events:none; background:var(--bg); border:1px solid var(--line); border-left:3px solid var(--accent); padding:.45rem .7rem; font-size:.8rem; line-height:1.35; opacity:0; transform:translateY(4px); transition:opacity .15s ease, transform .15s ease; max-width:220px; }
+  .tmap-tip.is-on{ opacity:1; transform:translateY(0); }
+  .tmap-tip strong{ display:block; font-size:.86rem; }
+  .tmap-tip span{ color:var(--muted); }
+  .tmap-tip em{ display:block; font-style:normal; font-family:var(--mono); font-size:.7rem; color:var(--accent); margin-top:.15rem; }
+  .tmap-legend{ display:flex; flex-wrap:wrap; gap:.4rem 1.1rem; margin-top:.8rem; font-size:.78rem; color:var(--muted); font-family:var(--mono); }
+  .tmap-legend i{ display:inline-block; width:10px; height:10px; margin-right:.4rem; vertical-align:-1px; }
+  .lg-jl{ background:var(--accent); border-radius:50%; }
+  .lg-dham{ border:2px solid var(--ink); transform:rotate(45deg) scale(.8); }
+  .lg-trip{ background:var(--teal); border-radius:50%; }
+  .lg-next{ border:2px dashed var(--accent); border-radius:50%; }
+  .tpanel{ display:grid; gap:1.2rem; }
+  .tcard{ border:1px solid var(--line); background:var(--surface); padding:1.1rem 1.2rem; }
+  .tcard__top{ display:flex; justify-content:space-between; align-items:baseline; gap:1rem; margin-bottom:.8rem; }
+  .tcard h3{ font-size:1rem; }
+  .tcard__count{ font-family:var(--disp); font-size:1.7rem; font-weight:600; line-height:1; }
+  .tcard__count small{ font-size:.95rem; color:var(--muted); font-weight:500; }
+  .tbar{ display:flex; gap:4px; margin-bottom:.9rem; }
+  .tbar span{ flex:1; height:8px; background:var(--line-soft); transform-origin:left; }
+  .tbar span.is-done{ background:var(--accent); }
+  .tbar span.is-next{ background:transparent; border:1px dashed var(--accent); }
+  .tmap-pop .tbar span.is-done{ animation:tbarFill .5s ease both; animation-delay:calc(var(--i) * 60ms + 200ms); }
+  @keyframes tbarFill{ from{ transform:scaleX(0); } to{ transform:scaleX(1); } }
+  .tlist{ display:grid; grid-template-columns:1fr 1fr; gap:.15rem .8rem; }
+  .tlist button{ display:flex; align-items:center; gap:.5rem; text-align:left; font-size:.84rem; padding:.28rem .2rem; color:var(--ink); border-bottom:1px solid var(--line-soft); cursor:pointer; background:transparent; }
+  .tlist button:hover, .tlist button.is-hot{ color:var(--accent); }
+  .tlist .tick{ width:14px; height:14px; flex-shrink:0; display:grid; place-items:center; font-size:.7rem; background:var(--accent); color:var(--accent-ink); border-radius:50%; }
+  .tlist .tick--next{ background:transparent; border:1px dashed var(--accent); color:var(--accent); }
+  .tlist .next-tag{ margin-left:auto; font-family:var(--mono); font-size:.66rem; color:var(--accent); white-space:nowrap; }
+  .tchips{ display:flex; flex-wrap:wrap; gap:.4rem; }
+  .tchips button, .tchips a{ font-size:.8rem; padding:.28rem .65rem; border:1px solid var(--line); color:var(--ink); text-decoration:none; background:transparent; cursor:pointer; }
+  .tchips button:hover, .tchips button.is-hot, .tchips a:hover{ border-color:var(--teal); color:var(--teal); }
+  .travel-note{ margin-top:1.4rem; font-size:.88rem; color:var(--muted); max-width:62ch; }
+  @media (max-width:860px){
+    .travel-grid{ grid-template-columns:1fr; gap:1.6rem; }
+    .tlist{ grid-template-columns:1fr; }
+  }
+  @media (prefers-reduced-motion:reduce){
+    .tmap-pop .tpin-pop, .tmap-pop .tbar span.is-done, .tpin.is-next .tpin-pulse{ animation:none !important; }
+  }
+
   /* ---------- Hero ---------- */
   .hero{ padding:4.5rem 0 3.5rem; position:relative; overflow:hidden; }
   .hero::after{
@@ -934,6 +1003,58 @@
   </div>
 </section>
 
+<section id="travel">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="section-tag">Off the clock</p>
+      <h2>Places I've been</h2>
+    </div>
+    <p class="lead-text reveal">Most weekends and holidays go to roads, mountains and temples. Tap a pin, or pick a place from the lists, to see where it is.</p>
+    <div class="travel-tools reveal" id="travelTools" role="group" aria-label="Filter map">
+      <button type="button" class="is-on" data-f="all">All</button>
+      <button type="button" data-f="jl">Jyotirlingas</button>
+      <button type="button" data-f="dham">Char Dham</button>
+      <button type="button" data-f="trip">Trips</button>
+    </div>
+    <div class="travel-grid">
+      <div class="reveal">
+        <div class="tmap-wrap" id="tmapWrap">
+          <svg class="tmap" id="tmap" viewBox="0 0 542 579" role="img" aria-label="Map of India with pins for places visited">
+            <g class="tmap-grid"><line x1="0" y1="532" x2="542" y2="532"/><line x1="0" y1="435" x2="542" y2="435"/><line x1="0" y1="337" x2="542" y2="337"/><line x1="0" y1="240" x2="542" y2="240"/><line x1="0" y1="142" x2="542" y2="142"/><line x1="0" y1="45" x2="542" y2="45"/><line x1="40" y1="0" x2="40" y2="579"/><line x1="130" y1="0" x2="130" y2="579"/><line x1="221" y1="0" x2="221" y2="579"/><line x1="311" y1="0" x2="311" y2="579"/><line x1="401" y1="0" x2="401" y2="579"/><line x1="492" y1="0" x2="492" y2="579"/></g>
+            <text class="tmap-sea" x="25" y="435">Arabian Sea</text><text class="tmap-sea" x="311" y="464">Bay of Bengal</text><text class="tmap-sea" x="194" y="602">Indian Ocean</text>
+            <path class="tmap-india" d="M117.5 5.8L137.4 7.8L162.7 27.3L180.8 35.1L193.5 27.3L213.3 33.1L226.0 40.9L218.8 56.5L207.9 76.0L200.7 91.6L195.3 103.3L198.9 115.0L218.8 124.8L238.7 138.4L224.2 156.0L222.4 165.7L238.7 175.5L256.7 183.3L280.2 193.0L296.5 193.0L311.0 204.7L329.1 208.6L350.8 212.5L367.0 212.5L368.8 202.8L365.2 193.0L367.0 183.3L377.9 179.4L381.5 193.0L379.7 200.8L390.5 204.7L406.8 203.8L426.7 202.8L432.1 193.0L439.3 185.2L450.2 183.3L462.9 173.5L479.1 157.9L495.4 159.9L511.7 154.0L522.5 169.6L533.4 177.4L527.9 189.1L515.3 196.9L508.1 200.8L495.4 212.5L495.4 220.3L491.8 230.1L484.5 239.8L482.7 255.4L477.3 269.1L464.7 278.8L461.0 288.6L457.4 298.3L452.0 299.3L446.6 284.7L443.0 273.0L437.5 265.2L426.7 276.9L423.1 267.1L430.3 257.4L439.3 253.5L444.8 241.8L430.3 236.9L414.0 235.9L399.6 234.0L397.8 222.3L383.3 216.4L374.3 212.5L372.4 220.3L377.9 232.0L367.0 245.7L368.8 255.4L377.9 261.3L381.5 273.0L385.1 288.6L381.5 304.2L365.2 306.1L347.1 308.1L345.3 321.7L336.3 335.4L323.6 343.2L307.4 352.9L291.1 366.6L273.0 386.1L262.2 403.6L242.3 417.3L226.0 427.0L222.4 454.3L226.0 473.8L218.8 495.3L217.0 524.5L207.9 526.5L200.7 544.0L188.0 555.7L175.4 569.4L166.3 563.5L157.3 551.8L151.9 528.4L141.0 501.1L128.4 477.7L119.3 448.5L110.3 429.0L101.2 407.5L94.0 384.1L90.4 356.8L90.4 329.5L88.6 315.9L79.6 310.0L77.7 315.9L57.9 321.7L45.2 319.8L27.1 300.3L21.7 294.4L32.5 282.7L19.9 276.9L7.2 267.1L5.4 261.3L19.9 253.5L43.4 241.8L39.8 220.3L48.8 196.9L66.9 183.3L90.4 163.8L104.9 144.3L121.1 122.8L128.4 109.2L122.9 95.5L117.5 87.8L103.1 83.8L99.4 70.2L94.0 56.5L92.2 46.8L85.0 35.1L86.8 21.4L101.2 9.8Z"/>
+            <g class="tmap-land"><ellipse cx="450.7" cy="491.8" rx="2.2" ry="8.0" transform="rotate(10 450.7 491.8)"/><ellipse cx="451.2" cy="502.8" rx="2.0" ry="6.0" transform="rotate(5 451.2 502.8)"/><ellipse cx="449.7" cy="512.8" rx="2.0" ry="4.0" transform="rotate(0 449.7 512.8)"/><ellipse cx="453.7" cy="520.8" rx="1.8" ry="5.0" transform="rotate(-10 453.7 520.8)"/></g>
+            <g id="tpins"></g>
+          </svg>
+          <div class="tmap-tip" id="tmapTip" role="status"></div>
+        </div>
+        <div class="tmap-legend">
+          <span><i class="lg-jl"></i>Jyotirlinga visited</span>
+          <span><i class="lg-dham"></i>Char Dham</span>
+          <span><i class="lg-trip"></i>Trip</span>
+          <span><i class="lg-next"></i>Next up</span>
+        </div>
+      </div>
+      <div class="tpanel reveal">
+        <div class="tcard">
+          <div class="tcard__top"><h3>Jyotirlingas</h3><div class="tcard__count" id="jlCount"></div></div>
+          <div class="tbar" id="jlBar"></div>
+          <div class="tlist" id="jlList"></div>
+        </div>
+        <div class="tcard">
+          <div class="tcard__top"><h3>Char Dham</h3><div class="tcard__count" id="dhamCount"></div></div>
+          <div class="tbar" id="dhamBar"></div>
+          <div class="tlist" id="dhamList"></div>
+        </div>
+        <div class="tcard">
+          <div class="tcard__top"><h3>Trips</h3></div>
+          <div class="tchips" id="tripChips"></div>
+        </div>
+      </div>
+    </div>
+    <p class="travel-note reveal">Illustrative map, not to scale. Abroad: a work trip to Fujitsu's office in Japan, <a href="#japan">photos below</a>. Up next: Baidyanath in Jharkhand and Jagannath Puri in Odisha.</p>
+  </div>
+</section>
 <section id="japan" style="border-bottom:0;">
   <div class="wrap">
     <div class="section-head reveal">
@@ -1331,6 +1452,7 @@
     { id: 'skills', label: 'Skills' },
     { id: 'publications', label: 'Publications' },
     { id: 'recognition', label: 'Recognition' },
+    { id: 'travel', label: 'Travel' },
     { id: 'japan', label: 'Japan' },
     { id: 'contact', label: 'Contact' }
   ];
@@ -1367,6 +1489,7 @@
     { label: 'Go to Skills', desc: 'section', run: function(){ scrollToId('skills'); } },
     { label: 'Go to Publications', desc: 'section', run: function(){ scrollToId('publications'); } },
     { label: 'Go to Recognition', desc: 'section', run: function(){ scrollToId('recognition'); } },
+    { label: 'Go to Travel map', desc: 'section', run: function(){ scrollToId('travel'); } },
     { label: 'Go to Japan trip photos', desc: 'section', run: function(){ scrollToId('japan'); } },
     { label: 'Go to Contact', desc: 'section', run: function(){ scrollToId('contact'); } },
     { label: 'Copy email address', desc: 'mohakgoel1@gmail.com', run: function(){ copyEmail(); } },
@@ -1532,7 +1655,11 @@
     { patterns: ['hsbc'], reply: "At HSBC Pune (2021 to 2022, about one year) he started as a Trainee Software Engineer. He built a Python sync framework between AWS S3 and on-premise storage with 99.9% data consistency, with checksum validation and retry logic, and cut storage footprint 40% and transfer time 60% on 5TB datasets." },
     { patterns: ['hometown', 'where is he from', 'where are you from', 'where he is from', 'native place', 'native', 'grew up', 'home town', 'which city is he from', 'belong to'], reply: "His hometown is Meerut, Uttar Pradesh. He is now based in Bangalore." },
     { patterns: ['languages does he speak', 'speak', 'hindi', 'english', 'mother tongue', 'spoken language'], reply: "He speaks English and Hindi." },
-    { patterns: ['travel', 'trip', 'visited', 'been to', 'places', 'jyotirling', 'dham', 'ladakh', 'kashmir', 'andaman', 'meghalaya', 'shillong', 'cherrapunji', 'dawki', 'manali', 'kasol', 'kanyakumari', 'gujarat', 'mumbai', 'countries'], reply: "Travel is his big thing. He has been to Andaman, Leh Ladakh, Kashmir, Japan, Kanyakumari, Meghalaya (Shillong, Cherrapunji, Dawki), Gujarat, Mumbai, Manali and Kasol. He has also visited 11 of the 12 jyotirlingas and 3 of the 4 dhams, with Baidyanath in Jharkhand and Jagannath Puri still to go." },
+    { patterns: ['japan', 'fujitsu office', 'business trip'], reply: "He went on a business trip to Fujitsu's Japan office, with some time to see Tokyo and Kyoto. Photos are in the 'On the ground' section near the bottom." },
+    { patterns: ['jyotirling', 'jyotirlinga', 'jyotirlinga', '12 jyotir', 'baidyanath', 'baidyanath', 'shiva'], reply: "He has visited 11 of the 12 jyotirlingas: Somnath, Nageshwar, Mallikarjuna, Mahakaleshwar, Omkareshwar, Kedarnath, Bhimashankar, Kashi Vishwanath, Trimbakeshwar, Rameshwaram and Grishneshwar. Baidyanath in Jharkhand is the one left. You can see them on the travel map in the Places I've been section." },
+    { patterns: ['char dham', 'dhams', 'badrinath', 'puri', 'jagannath', 'jagannatha', 'dham'], reply: "He has completed 3 of the 4 Char Dham: Badrinath, Dwarka and Rameshwaram. Jagannath Puri in Odisha is still to go. They are marked on the travel map on the site." },
+    { patterns: ['map', 'pins', 'travel map', 'places i have been'], reply: "The site has a travel map of India in the Places I've been section, with pins for the jyotirlingas, Char Dham and trips, plus progress trackers: 11 of 12 jyotirlingas and 3 of 4 dhams." },
+    { patterns: ['travel', 'trip', 'visited', 'been to', 'places', 'jyotirling', 'dham', 'ladakh', 'kashmir', 'andaman', 'meghalaya', 'shillong', 'cherrapunji', 'dawki', 'manali', 'kasol', 'kanyakumari', 'gujarat', 'mumbai', 'countries'], reply: "Travel is his big thing. He has been to Andaman, Leh Ladakh, Kashmir, Japan, Kanyakumari, Meghalaya (Shillong, Cherrapunji, Dawki), Gujarat, Mumbai, Manali and Kasol. He has also visited 11 of the 12 jyotirlingas and 3 of the 4 dhams, with Baidyanath in Jharkhand and Jagannath Puri still to go. There is a travel map of it all in the Places I've been section." },
     { patterns: ['favourite food', 'favorite food', 'what does he eat', 'cuisine', 'italian', 'chinese', 'punjabi', 'foodie', 'likes to eat', 'food does he like', 'food he likes'], reply: "He likes Italian, Chinese and Punjabi food." },
     { patterns: ['why data', 'why did he', 'get into', 'got into', 'how did he start', 'how he started', 'started coding', 'inspir', 'motivat', 'why python', 'journey', 'his story'], reply: "He started out coding in Python, got drawn to data, and that grew into building large pipelines and then down the stack into ARM performance work on MONAKA. Python is still his strongest language." },
     { patterns: ['goal', 'relocat', 'remote', 'future', 'next role', 'looking for', 'aspir', 'leadership', 'ambition', 'where does he see', 'five years', '5 years'], reply: "He is open to relocating and wants to keep growing in tech and into leadership at a good organization. Email mohakgoel1@gmail.com to talk about opportunities." },
@@ -1562,7 +1689,6 @@
     { patterns: ['resume', 'cv', 'download'], reply: "There's a résumé download button up in the hero section, top of the page." },
     { patterns: ['location', 'where', 'based', 'live', 'city'], reply: "Bangalore, India. His hometown is Meerut, Uttar Pradesh." },
     { patterns: ['arm', 'monaka', 'chip', 'performance', 'sve', 'neon'], reply: "MONAKA is Fujitsu's next-generation ARM-based chip for data centers. Mohak benchmarks and tunes distributed databases on it, and feeds performance fixes back upstream. See the Open source & ARM project card." },
-    { patterns: ['japan', 'fujitsu office', 'business trip'], reply: "He went on a business trip to Fujitsu's Japan office, with some time to see Tokyo and Kyoto. Photos are in the 'On the ground' section near the bottom." },
     { patterns: ['hobby', 'hobbies', 'free time', 'outside work', 'fun', 'personal interest', 'weekend', 'spare time', 'do for fun'], reply: "Travelling is the big one, plus concerts, movies and fitness. He is also into road trips and picking up adventure activities like surfing. Ask about his travels for the full list." },
     { patterns: ['hello', 'hi', 'hey'], reply: "Hey! Ask me about Mohak's experience, skills, projects, education, hobbies, or how to reach him." },
     { patterns: ['thank'], reply: "Anytime. Anything else you'd like to know?" },
@@ -1705,6 +1831,7 @@
     "Personal: based in Bangalore (never give a more specific area). Hometown is Meerut, Uttar Pradesh. Speaks English and Hindi.",
     "Interests: travelling, concerts, movies and fitness; also road trips and picking up adventure activities like surfing. Favourite food is Italian, Chinese and Punjabi.",
     "Travel: has been to Andaman, Leh Ladakh, Kashmir, Japan (including a business trip to Fujitsu's Japan office, photos are on the site), Kanyakumari, Meghalaya (Shillong, Cherrapunji, Dawki), Gujarat, Mumbai, Manali and Kasol. Has visited 11 of the 12 jyotirlingas and 3 of the 4 dhams; Baidyanath in Jharkhand and Jagannath Puri are the remaining ones.",
+    "Travel map: the site has an interactive travel map of India in the Places I've been section with pins for jyotirlingas, Char Dham and trips, and progress trackers. Jyotirlingas visited (11 of 12): Somnath, Nageshwar (Dwarka), Mallikarjuna (Srisailam), Mahakaleshwar (Ujjain), Omkareshwar, Kedarnath, Bhimashankar, Kashi Vishwanath (Varanasi), Trimbakeshwar (Nashik), Rameshwaram, Grishneshwar (Ellora); Baidyanath (Deoghar, Jharkhand) is still left. Char Dham visited (3 of 4): Badrinath, Dwarka, Rameshwaram; Jagannath Puri is still left.",
     "Story: started out coding in Python, got drawn to data, which led to building large data pipelines, and then down the stack into ARM performance work on MONAKA. Python is his strongest language.",
     "Goals: open to relocating, wants to keep growing in tech and grow into leadership at a good organization.",
     "FORMAT RULE: by default answer in short plain sentences. If the visitor asks for bullet points, bullets, points or a list, answer with each point on its own line starting with a hyphen and a space, one short line per point, at most 8 points, no bold or other markdown, and no lead-in sentence. If the visitor only asks you to reformat (for example give in bullet points) apply that to your previous answer instead of asking what they mean.",
@@ -1972,6 +2099,143 @@
     botTeaser.addEventListener('click', function(){ botTeaser.classList.remove('is-visible'); openBot(); });
     botToggle.addEventListener('click', function(){ botTeaser.classList.remove('is-visible'); });
   }
+
+
+  // travel map
+  (function(){
+    var pins = [{"t":"jl","n":"Somnath","s":"Gujarat","x":47.0,"y":320.0,"v":1,"i":0},{"t":"jl","n":"Nageshwar","s":"Dwarka, Gujarat","x":23.3,"y":291.7,"v":1,"i":1},{"t":"jl","n":"Mallikarjuna","s":"Srisailam, Andhra Pradesh","x":200.1,"y":414.0,"v":1,"i":2},{"t":"jl","n":"Mahakaleshwar","s":"Ujjain, Madhya Pradesh","x":144.3,"y":275.3,"v":1,"i":3},{"t":"jl","n":"Omkareshwar","s":"Madhya Pradesh","x":151.0,"y":293.7,"v":1,"i":4},{"t":"jl","n":"Kedarnath","s":"Uttarakhand","x":203.8,"y":127.9,"v":1,"i":5},{"t":"jl","n":"Bhimashankar","s":"Maharashtra","x":103.8,"y":355.5,"v":1,"i":6},{"t":"jl","n":"Kashi Vishwanath","s":"Varanasi, Uttar Pradesh","x":275.0,"y":233.8,"v":1,"i":7},{"t":"jl","n":"Trimbakeshwar","s":"Nashik, Maharashtra","x":103.6,"y":338.7,"v":1,"i":8},{"t":"jl","n":"Baidyanath","s":"Deoghar, Jharkhand","x":341.7,"y":249.8,"v":0,"i":9},{"t":"jl","n":"Rameshwaram","s":"Tamil Nadu","x":208.1,"y":546.2,"v":1,"i":10},{"t":"jl","n":"Grishneshwar","s":"Ellora, Maharashtra","x":133.4,"y":337.0,"v":1,"i":11},{"t":"dham","n":"Badrinath","s":"Uttarakhand","x":211.4,"y":127.9,"v":1,"i":12},{"t":"dham","n":"Dwarka","s":"Gujarat","x":21.2,"y":293.7,"v":1,"i":13},{"t":"dham","n":"Rameshwaram","s":"Tamil Nadu","x":208.1,"y":546.2,"v":1,"i":14},{"t":"dham","n":"Jagannath Puri","s":"Odisha","x":326.0,"y":341.2,"v":0,"i":15},{"t":"trip","n":"Andaman","s":"Andaman Islands","x":450.7,"y":500.8,"v":1,"i":16},{"t":"trip","n":"Leh Ladakh","s":"Ladakh","x":176.8,"y":61.4,"v":1,"i":17},{"t":"trip","n":"Kashmir","s":"Jammu and Kashmir","x":126.6,"y":62.8,"v":1,"i":18},{"t":"trip","n":"Kanyakumari","s":"Tamil Nadu","x":176.3,"y":569.8,"v":1,"i":19},{"t":"trip","n":"Meghalaya","s":"Shillong, Cherrapunji, Dawki","x":435.7,"y":232.0,"v":1,"i":20},{"t":"trip","n":"Gujarat","s":"Ahmedabad and around","x":86.2,"y":278.5,"v":1,"i":21},{"t":"trip","n":"Mumbai","s":"Maharashtra","x":91.8,"y":355.3,"v":1,"i":22},{"t":"trip","n":"Manali and Kasol","s":"Himachal Pradesh","x":170.9,"y":101.0,"v":1,"i":23}];
+    var svgNS = 'http://www.w3.org/2000/svg';
+    var layer = document.getElementById('tpins');
+    var wrap = document.getElementById('tmapWrap');
+    var tip = document.getElementById('tmapTip');
+    var svg = document.getElementById('tmap');
+    if (!layer || !wrap || !tip) return;
+    var nodes = {};
+    var listBtns = {};
+    function el(name, attrs){
+      var n = document.createElementNS(svgNS, name);
+      Object.keys(attrs || {}).forEach(function(k){ n.setAttribute(k, attrs[k]); });
+      return n;
+    }
+    function label(p){ return p.n + ', ' + p.s + (p.v ? '' : ', next up'); }
+    function showTip(p){
+      var node = nodes[p.i];
+      var sr = svg.getBoundingClientRect();
+      var wr = wrap.getBoundingClientRect();
+      var scale = sr.width / svg.viewBox.baseVal.width;
+      var px = sr.left - wr.left + p.x * scale;
+      var py = sr.top - wr.top + p.y * scale;
+      tip.textContent = '';
+      var a = document.createElement('strong'); a.textContent = p.n;
+      var b = document.createElement('span'); b.textContent = p.s;
+      tip.appendChild(a); tip.appendChild(b);
+      var c = document.createElement('em');
+      c.textContent = p.t === 'jl' ? (p.v ? 'Jyotirlinga visited' : 'Jyotirlinga, next up') : p.t === 'dham' ? (p.v ? 'Char Dham visited' : 'Char Dham, next up') : 'Trip';
+      tip.appendChild(c);
+      var tw = Math.min(220, wr.width - 12);
+      var left = Math.max(6, Math.min(px - tw / 2, wr.width - tw - 6));
+      var below = py < 150;
+      tip.style.left = left + 'px';
+      tip.style.top = (below ? py + 16 : py - tip.offsetHeight - 14) + 'px';
+      tip.classList.add('is-on');
+      hot(p.i, true);
+    }
+    function hideTip(p){ tip.classList.remove('is-on'); hot(p.i, false); }
+    function hot(i, on){
+      var group = pins.filter(function(q){ return q.i === i; })[0];
+      if (nodes[i]) nodes[i].classList.toggle('is-hot', on);
+      if (listBtns[i]) listBtns[i].classList.toggle('is-hot', on);
+    }
+    pins.slice().sort(function(a, b){ return (a.t === 'dham' ? 0 : 1) - (b.t === 'dham' ? 0 : 1); }).forEach(function(p){
+      var g = el('g', { 'class': 'tpin tpin--' + p.t + (p.v ? '' : ' is-next'), tabindex: '0', role: 'button', 'aria-label': label(p), 'data-t': p.t, 'data-i': p.i });
+      g.style.setProperty('--i', p.i);
+      var pop = el('g', { 'class': 'tpin-pop' });
+      if (!p.v) pop.appendChild(el('circle', { 'class': 'tpin-pulse', cx: p.x, cy: p.y, r: 6 }));
+      pop.appendChild(el('circle', { 'class': 'tpin-halo', cx: p.x, cy: p.y, r: 9 }));
+      if (p.t === 'dham') {
+        var r = 7.5;
+        pop.appendChild(el('polygon', { 'class': 'tpin-body', points: p.x + ',' + (p.y - r) + ' ' + (p.x + r) + ',' + p.y + ' ' + p.x + ',' + (p.y + r) + ' ' + (p.x - r) + ',' + p.y }));
+      } else {
+        pop.appendChild(el('circle', { 'class': 'tpin-body', cx: p.x, cy: p.y, r: p.t === 'trip' ? 5 : 4.6 }));
+      }
+      g.appendChild(pop);
+      g.addEventListener('mouseenter', function(){ showTip(p); });
+      g.addEventListener('mouseleave', function(){ hideTip(p); });
+      g.addEventListener('focus', function(){ showTip(p); });
+      g.addEventListener('blur', function(){ hideTip(p); });
+      g.addEventListener('click', function(){ showTip(p); });
+      layer.appendChild(g);
+      nodes[p.i] = g;
+    });
+    document.addEventListener('click', function(e){
+      if (!e.target.closest || !e.target.closest('.tpin')) tip.classList.remove('is-on');
+    });
+
+    function build(type, barId, listId, countId){
+      var items = pins.filter(function(p){ return p.t === type; });
+      var done = items.filter(function(p){ return p.v; }).length;
+      document.getElementById(countId).innerHTML = done + ' <small>/ ' + items.length + '</small>';
+      var bar = document.getElementById(barId);
+      var list = document.getElementById(listId);
+      items.forEach(function(p, idx){
+        var seg = document.createElement('span');
+        seg.className = p.v ? 'is-done' : 'is-next';
+        seg.style.setProperty('--i', idx);
+        bar.appendChild(seg);
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        var tick = document.createElement('span');
+        tick.className = 'tick' + (p.v ? '' : ' tick--next');
+        tick.textContent = p.v ? '\u2713' : '';
+        var name = document.createElement('span');
+        name.textContent = p.n;
+        btn.appendChild(tick); btn.appendChild(name);
+        if (!p.v) { var nt = document.createElement('span'); nt.className = 'next-tag'; nt.textContent = 'next up'; btn.appendChild(nt); }
+        btn.addEventListener('mouseenter', function(){ hot(p.i, true); });
+        btn.addEventListener('mouseleave', function(){ hot(p.i, false); });
+        btn.addEventListener('click', function(){ showTip(p); });
+        list.appendChild(btn);
+        listBtns[p.i] = btn;
+      });
+    }
+    build('jl', 'jlBar', 'jlList', 'jlCount');
+    build('dham', 'dhamBar', 'dhamList', 'dhamCount');
+    var chips = document.getElementById('tripChips');
+    pins.filter(function(p){ return p.t === 'trip'; }).forEach(function(p){
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.textContent = p.n;
+      b.addEventListener('mouseenter', function(){ hot(p.i, true); });
+      b.addEventListener('mouseleave', function(){ hot(p.i, false); });
+      b.addEventListener('click', function(){ showTip(p); });
+      chips.appendChild(b);
+      listBtns[p.i] = b;
+    });
+
+    var tools = document.getElementById('travelTools');
+    tools.addEventListener('click', function(e){
+      var b = e.target.closest('button');
+      if (!b) return;
+      tools.querySelectorAll('button').forEach(function(x){ x.classList.toggle('is-on', x === b); });
+      var f = b.getAttribute('data-f');
+      tip.classList.remove('is-on');
+      layer.querySelectorAll('.tpin').forEach(function(g){
+        g.classList.toggle('is-dim', f !== 'all' && g.getAttribute('data-t') !== f);
+      });
+    });
+
+    var section = document.getElementById('travel');
+    if ('IntersectionObserver' in window) {
+      var tobs = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){
+          if (en.isIntersecting) { section.classList.add('tmap-pop'); tobs.disconnect(); }
+        });
+      }, { threshold: 0.25 });
+      tobs.observe(section);
+    } else {
+      section.classList.add('tmap-pop');
+    }
+  })();
 
   // konami code easter egg
   var konamiSeq = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
