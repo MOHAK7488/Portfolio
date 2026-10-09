@@ -470,9 +470,12 @@
   @keyframes botRing{ 0%{ transform:scale(1); opacity:.7; } 100%{ transform:scale(1.7); opacity:0; } }
   .bot-teaser{
     position:fixed; right:5.2rem; bottom:1.9rem; background:var(--surface); border:1px solid var(--line); border-right:3px solid var(--accent);
-    padding:.55rem .8rem; font-size:.82rem; color:var(--ink); z-index:94; white-space:nowrap; cursor:pointer;
+    padding:.65rem .9rem; font-size:.84rem; color:var(--ink); z-index:94; cursor:pointer; display:flex; align-items:center; gap:.6rem; max-width:min(300px, calc(100vw - 7rem)); line-height:1.35; min-height:2.6rem;
     opacity:0; transform:translateX(8px); pointer-events:none; transition:opacity .25s ease, transform .25s ease;
   }
+  .bot-teaser__dot{ width:8px; height:8px; border-radius:50%; background:var(--accent); flex-shrink:0; animation:botDot 1.6s ease-in-out infinite; }
+  @keyframes botDot{ 0%,100%{ opacity:1; transform:scale(1); } 50%{ opacity:.35; transform:scale(.7); } }
+  @media (prefers-reduced-motion:reduce){ .bot-teaser__dot{ animation:none; } }
   .bot-teaser.is-visible{ opacity:1; transform:translateX(0); pointer-events:auto; }
   @media (max-width:480px){ .bot-teaser{ right:4.4rem; bottom:1.5rem; } }
 
@@ -994,7 +997,7 @@
   </div>
 </div>
 
-<div class="bot-teaser" id="botTeaser">Ask me anything about Mohak</div>
+<div class="bot-teaser" id="botTeaser" role="status"><span class="bot-teaser__dot"></span><span class="bot-teaser__text">Ask me anything about Mohak</span></div>
 <button class="bot-toggle" id="botToggle" aria-label="Ask a question about Mohak">
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="2"></rect><path d="M12 8V4"></path><circle cx="12" cy="3" r="1"></circle><line x1="9" y1="14" x2="9" y2="14.01"></line><line x1="15" y1="14" x2="15" y2="14.01"></line><path d="M4 13H2"></path><path d="M22 13h-2"></path></svg>
 </button>
@@ -1523,6 +1526,21 @@
   var botStarted = false;
 
   var botKB = [
+    { patterns: ['database', 'databases', 'db ', 'dbs', 'datastore', 'data store', 'nosql', 'sql database', 'storage engine', 'rocksdb', 'tidb', 'tikv', 'mongodb', 'cassandra', 'snowflake', 'postgres', 'mysql', 'redis', 'vector database', 'vector db'], reply: "Databases and storage he has worked with: RocksDB, TiDB and TiKV (benchmarking and tuning on ARM vs x86), MongoDB, Cassandra, Snowflake, Delta Lake, AWS S3 data lakes, Dremio for federated SQL, and vector search through Milvus (knowhere). On the SQL side he works daily with Spark SQL and Snowflake." },
+    { patterns: ['pipeline', 'etl', 'spark', 'airflow', 'data engineering', 'data engineer', 'kafka', 'nifi', 'big data', 'data lake', 'delta lake', 'streaming', 'batch'], reply: "Data engineering is the core of his background. At Fujitsu he built distributed ETL with PySpark and Airflow (40% better multi-terabyte processing efficiency), Spark SQL and Delta Lake cubes (35% faster time-series queries), and NiFi ingestion. At Samsung he owned an AWS data lake and Spark/Snowflake ETL on 5TB+ of daily data, cutting reporting latency by 50% and compute cost by 67%." },
+    { patterns: ['aws', 'cloud', 's3', 'glue', 'lambda', 'step functions', 'cloudformation', 'kubernetes', 'k8s', 'gitops', 'devops', 'ci/cd', 'docker'], reply: "On cloud he has built on AWS (S3 with IAM/STS, Glue, Lambda, Step Functions, CloudFormation), moved workflows from Azkaban to Airflow on Kubernetes with GitOps, and uses GitLab CI/CD. He also holds the AZ-900 Azure certification." },
+    { patterns: ['python', 'java', 'rust', 'c++', 'c/c++', 'cuda', 'llvm', 'programming language', 'which languages', 'what languages', 'sql'], reply: "Languages: C/C++, Rust, Python, Java and SQL, plus low-level work in ARM NEON/SVE, CUDA, AVX, LLVM and the Linux kernel." },
+    { patterns: ['machine learning', 'ml ', 'ai ', 'deep learning', 'model', 'scikit', 'data science'], reply: "He's completing an M.Tech in AI/ML at BITS Pilani, embedded ML models into Spark pipelines for near real-time scoring and retraining at Fujitsu, built a telco churn classifier comparing five models, and co-wrote a Springer paper on gesture decoding with deep learning." },
+    { patterns: ['impact', 'result', 'metric', 'achieve', 'accomplish', 'numbers', 'improved', 'reduced', 'optimiz'], reply: "Highlights: 67% lower compute and storage cost and 50% lower reporting latency at Samsung, 40% better multi-terabyte processing efficiency and 35% faster time-series queries at Fujitsu, about 2x faster retrieval from his ARM SVE kernels in knowhere, up to 42% faster XXH3 hashing in RocksDB, and 18.6% lower steal latency in crossbeam." },
+    { patterns: ['strength', 'why hire', 'why should', 'what makes', 'special', 'unique', 'stand out', 'good fit'], reply: "He is unusual in covering both ends of the stack: he designs large data pipelines and also tunes the low-level systems underneath them on ARM. His work has measurable results and ships upstream into projects like RocksDB, TiKV, crossbeam and Milvus." },
+    { patterns: ['current role', 'current job', 'currently', 'right now', 'working on now', 'what does he do', 'what do you do', 'day to day'], reply: "He is a Software Engineer II at Fujitsu Research of India, leading data-processing design for MONAKA, a next-generation ARM-based chip for data centers, and benchmarking and tuning distributed databases on it." },
+    { patterns: ['samsung'], reply: "At Samsung R&D Institute Bangalore he was a Senior Engineer who owned a multi-zone AWS S3 data lake and its ETL layer. Spark and Snowflake pipelines cut reporting latency by 50%, optimization cut compute and storage cost by 67%, and he automated releases with Lambda, Step Functions and CloudFormation. He also prototyped Dremio for federated SQL." },
+    { patterns: ['hsbc'], reply: "He started at HSBC in Pune as a Trainee Software Engineer, building a Python sync framework between AWS S3 and on-premise storage with checksum validation and retry logic (99.9% consistency) and transfer pipelines that cut storage 40% and transfer time 60% on 5TB datasets." },
+    { patterns: ['flight', 'flight project', 'flight tracker', 'price tracker'], reply: "The flight price tracker is a full-stack app (React, Supabase, Amadeus API, GitHub Actions) that watches fares and sends a WhatsApp alert when a tracked route drops." },
+    { patterns: ['churn', 'churn project', 'churn classifier', 'streamlit', 'telco'], reply: "The telco churn classifier is a Streamlit app comparing five models on the Telco customer-churn dataset, built for a BITS M.Tech assignment. There is a live app link in the Projects section." },
+    { patterns: ['hotel', 'hotel project', 'hotel food ordering', 'food ordering', 'room service'], reply: "The hotel food ordering platform is a completed project: a guest-facing ordering flow plus a manager dashboard for room service, with session persistence and real-time order updates (React, Supabase, Netlify)." },
+    { patterns: ['salary', 'ctc', 'compensation', 'notice period', 'expected pay'], reply: "He doesn't share that here. Email mohakgoel1@gmail.com to talk about it directly." },
+    { patterns: ['name', 'your name', 'full name'], reply: "Mohak Goel." },
     { patterns: ['hire', 'job', 'opportunit', 'available', 'open to work', 'recruit'], reply: "Mohak's open to new opportunities. Email him at mohakgoel1@gmail.com or connect on LinkedIn. Links are in the footer." },
     { patterns: ['who is', 'whoami', 'who are you', 'about mohak', 'introduce', 'tell me about him', 'tell me about mohak', 'background'], reply: "Mohak Goel is a Software Engineer II at Fujitsu Research of India, working on MONAKA, a next-generation ARM-based chip for data centers. He's based in Bangalore, India." },
     { patterns: ['experience', 'work history', 'career', 'fujitsu', 'samsung', 'hsbc', 'years of experience', 'how long has he worked'], reply: "Mohak builds data and performance systems end to end. At Fujitsu Research of India he optimizes open-source software for the ARM-based MONAKA chip, at Samsung R&D Bangalore he worked on large-scale data pipelines, and at HSBC he started with enterprise data engineering. See the Experience section for details on each." },
@@ -1541,16 +1559,17 @@
     { patterns: ['thank'], reply: "Anytime. Anything else you'd like to know?" },
     { patterns: ['joke', 'fun fact'], reply: "Fun fact: he's 800+ days into building MONAKA and counting. There's a live counter in the hero section." }
   ];
-  var botFallback = "I don't have a confident answer for that from what's on this site. Try asking about his experience, skills, projects, education, hobbies, or how to get in touch.";
+  var botFallback = "I don't have that detail. Try asking about his experience, databases, data pipelines, ARM work, projects, education, hobbies, or email mohakgoel1@gmail.com directly.";
 
   function botFindReply(text){
-    var lower = text.toLowerCase();
+    var lower = ' ' + text.toLowerCase().replace(/[?!.,]/g, ' ') + ' ';
     var bestScore = 0;
     var bestReply = null;
     for (var i = 0; i < botKB.length; i++) {
       var score = 0;
       for (var j = 0; j < botKB[i].patterns.length; j++) {
-        if (lower.indexOf(botKB[i].patterns[j]) !== -1) score++;
+        var pat = botKB[i].patterns[j];
+        if (lower.indexOf(pat) !== -1) score += pat.length;
       }
       if (score > bestScore) { bestScore = score; bestReply = botKB[i].reply; }
     }
@@ -1750,18 +1769,62 @@
     marqueeTrack.innerHTML = marqueeHtml;
   }
 
-  // bot teaser
+  // bot greeting: beep + typed hello
   var botTeaser = document.getElementById('botTeaser');
   if (botTeaser) {
-    var teaserSeen = false;
-    try { teaserSeen = sessionStorage.getItem('mg-teaser') === '1'; } catch (e) {}
-    if (!teaserSeen) {
-      setTimeout(function(){
-        if (botPanel.classList.contains('is-open')) return;
-        botTeaser.classList.add('is-visible');
-        try { sessionStorage.setItem('mg-teaser', '1'); } catch (e) {}
-        setTimeout(function(){ botTeaser.classList.remove('is-visible'); }, 6000);
-      }, 7000);
+    var botGreeted = false;
+    try { botGreeted = sessionStorage.getItem('mg-greeted') === '1'; } catch (e) {}
+    var botAudio = null;
+    function botBeep(){
+      try {
+        var AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return false;
+        if (!botAudio) botAudio = new AC();
+        if (botAudio.state === 'suspended') { botAudio.resume(); }
+        if (botAudio.state !== 'running') return false;
+        var t0 = botAudio.currentTime;
+        [[880, 0], [1320, 0.11]].forEach(function(n){
+          var o = botAudio.createOscillator();
+          var g = botAudio.createGain();
+          o.type = 'sine';
+          o.frequency.value = n[0];
+          g.gain.setValueAtTime(0.0001, t0 + n[1]);
+          g.gain.exponentialRampToValueAtTime(0.07, t0 + n[1] + 0.02);
+          g.gain.exponentialRampToValueAtTime(0.0001, t0 + n[1] + 0.2);
+          o.connect(g); g.connect(botAudio.destination);
+          o.start(t0 + n[1]); o.stop(t0 + n[1] + 0.22);
+        });
+        return true;
+      } catch (e) { return false; }
+    }
+    function botGreet(){
+      if (botPanel.classList.contains('is-open')) return;
+      var line = botTeaser.querySelector('.bot-teaser__text');
+      var msg = "Hi, I'm Mohak's AI bot. Ask me anything about Mohak.";
+      botTeaser.classList.add('is-visible');
+      if (reduceMotion) { line.textContent = msg; }
+      else {
+        line.textContent = '';
+        var i = 0;
+        var typer = setInterval(function(){
+          i++;
+          line.textContent = msg.slice(0, i);
+          if (i >= msg.length) clearInterval(typer);
+        }, 28);
+      }
+      if (!botBeep()) {
+        var events = ['pointerdown', 'keydown', 'touchstart', 'wheel', 'scroll'];
+        var once = function(){
+          events.forEach(function(ev){ window.removeEventListener(ev, once, true); });
+          botBeep();
+        };
+        events.forEach(function(ev){ window.addEventListener(ev, once, true); });
+      }
+      setTimeout(function(){ botTeaser.classList.remove('is-visible'); }, 9000);
+    }
+    if (!botGreeted) {
+      try { sessionStorage.setItem('mg-greeted', '1'); } catch (e) {}
+      setTimeout(botGreet, 1400);
     }
     botTeaser.addEventListener('click', function(){ botTeaser.classList.remove('is-visible'); openBot(); });
     botToggle.addEventListener('click', function(){ botTeaser.classList.remove('is-visible'); });
