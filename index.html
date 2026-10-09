@@ -505,7 +505,7 @@
 
   /* ---------- Motion & polish ---------- */
   .scroll-progress{ position:fixed; top:0; left:0; height:3px; width:0%; background:var(--accent); z-index:150; }
-  nav.links{ position:relative; }
+  @media (min-width:861px){ nav.links{ position:relative; } }
   .nav-indicator{
     position:absolute; bottom:-1px; height:2px; background:var(--accent);
     transition:left .25s ease, width .25s ease; opacity:0; pointer-events:none;
