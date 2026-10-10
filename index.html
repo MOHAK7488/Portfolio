@@ -170,6 +170,16 @@
   .lg-dham{ border:2px solid var(--ink); transform:rotate(45deg) scale(.8); }
   .lg-trip{ background:var(--teal); border-radius:50%; }
   .lg-next{ border:2px dashed var(--accent); border-radius:50%; }
+
+  .tpin--home .tpin-body{ fill:var(--ink); stroke:var(--surface); stroke-width:1.4; }
+  .tpin--now .tpin-body{ fill:var(--accent); stroke:var(--surface); stroke-width:2; }
+  .tpin--now .tpin-pulse{ fill:none; stroke:var(--accent); stroke-width:1.5; transform-box:fill-box; transform-origin:center; animation:tpinPulse 2s ease-out infinite; }
+  .tmap-label{ font-family:var(--mono); font-size:11px; font-weight:600; fill:var(--ink); paint-order:stroke; stroke:var(--surface-2); stroke-width:3px; stroke-linejoin:round; pointer-events:none; }
+  .lg-home{ width:10px; height:10px; background:var(--ink); clip-path:polygon(50% 0, 100% 45%, 100% 100%, 0 100%, 0 45%); }
+  .lg-now{ border:2px solid var(--accent); border-radius:50%; background:radial-gradient(circle, var(--accent) 30%, transparent 35%); }
+  @media (max-width:560px){ .tmap-label{ font-size:17px; stroke-width:4px; } }
+  .tlist.tlist--one{ grid-template-columns:1fr; }
+  @media (prefers-reduced-motion:reduce){ .tpin--now .tpin-pulse{ animation:none !important; } }
   .tpanel{ display:grid; gap:1.2rem; }
   .tcard{ border:1px solid var(--line); background:var(--surface); padding:1.1rem 1.2rem; }
   .tcard__top{ display:flex; justify-content:space-between; align-items:baseline; gap:1rem; margin-bottom:.8rem; }
@@ -1053,9 +1063,15 @@
           <span><i class="lg-dham"></i>Char Dham</span>
           <span><i class="lg-trip"></i>Trip</span>
           <span><i class="lg-next"></i>Next up</span>
+          <span><i class="lg-home"></i>Hometown</span>
+          <span><i class="lg-now"></i>Based now</span>
         </div>
       </div>
       <div class="tpanel reveal">
+        <div class="tcard">
+          <div class="tcard__top"><h3>Home base</h3></div>
+          <div class="tlist tlist--one" id="homeList"></div>
+        </div>
         <div class="tcard">
           <div class="tcard__top"><h3>Jyotirlingas</h3><div class="tcard__count" id="jlCount"></div></div>
           <div class="tbar" id="jlBar"></div>
@@ -1681,7 +1697,7 @@
     { patterns: ['hsbc'], reply: "At HSBC Pune (2021 to 2022, about one year) he started as a Trainee Software Engineer. He built a Python sync framework between AWS S3 and on-premise storage with 99.9% data consistency, with checksum validation and retry logic, and cut storage footprint 40% and transfer time 60% on 5TB datasets." },
     { patterns: ['birthday', 'date of birth', 'dob', 'born', 'birth place', 'birthplace', 'when was he born', 'how old', 'his age', 'what age', 'zodiac'], reply: "Mohak was born on 13 July 1999 in Meerut, Uttar Pradesh, so he is " + botAge() + " years old." },
     { patterns: ['merged', 'pr status', 'pull request status', 'prs merged', 'are the prs', 'status of his pr', 'live status'], reply: "His five open-source pull requests are listed in the Projects section, and each row shows its live status from GitHub (merged, open or closed), so it is always current. I can't see the live status from here, so check the row for the latest." },
-    { patterns: ['hometown', 'where is he from', 'where are you from', 'where he is from', 'native place', 'native', 'grew up', 'home town', 'which city is he from', 'belong to'], reply: "His hometown is Meerut, Uttar Pradesh, where he was born. He is now based in Bangalore." },
+    { patterns: ['hometown', 'where is he from', 'where are you from', 'where he is from', 'native place', 'native', 'grew up', 'home town', 'which city is he from', 'belong to'], reply: "His hometown is Meerut, Uttar Pradesh, where he was born. He is now based in Bangalore. Both are marked on the travel map in the Places I've been section." },
     { patterns: ['languages does he speak', 'speak', 'hindi', 'english', 'mother tongue', 'spoken language'], reply: "He speaks English and Hindi." },
     { patterns: ['japan', 'fujitsu office', 'business trip'], reply: "He went on a business trip to Fujitsu's Japan office, with some time to see Tokyo and Kyoto. Photos are in the 'On the ground' section near the bottom." },
     { patterns: ['jyotirling', 'jyotirlinga', 'jyotirlinga', '12 jyotir', 'baidyanath', 'baidyanath', 'shiva'], reply: "He has visited 11 of the 12 jyotirlingas: Somnath, Nageshwar, Mallikarjuna, Mahakaleshwar, Omkareshwar, Kedarnath, Bhimashankar, Kashi Vishwanath, Trimbakeshwar, Rameshwaram and Grishneshwar. Baidyanath in Jharkhand is the one left. You can see them on the travel map in the Places I've been section." },
@@ -1715,7 +1731,7 @@
     { patterns: ['award', 'achievement', 'recognition', 'certif', 'won anything'], reply: "A Samsung Excellence Award, a Fujitsu Employee of the Quarter award, a FRIPL Award, and an AZ-900 Azure certification." },
     { patterns: ['publication', 'research', 'paper', 'isc', 'poster', 'published'], reply: "A poster at ISC-HPC 2026 on accelerating Milvus on ARM, and a Springer paper on gesture-based sign language interpretation. Both are in the Publications section." },
     { patterns: ['resume', 'cv', 'download'], reply: "There's a résumé download button up in the hero section, top of the page." },
-    { patterns: ['location', 'where', 'based', 'live', 'city'], reply: "Bangalore, India. His hometown is Meerut, Uttar Pradesh." },
+    { patterns: ['location', 'where', 'based', 'live', 'city'], reply: "Bangalore, India. His hometown is Meerut, Uttar Pradesh. Both are marked on the travel map." },
     { patterns: ['arm', 'monaka', 'chip', 'performance', 'sve', 'neon'], reply: "MONAKA is Fujitsu's next-generation ARM-based chip for data centers. Mohak benchmarks and tunes distributed databases on it, and feeds performance fixes back upstream. See the Open source & ARM project card." },
     { patterns: ['hobby', 'hobbies', 'free time', 'outside work', 'fun', 'personal interest', 'weekend', 'spare time', 'do for fun'], reply: "Travelling is the big one, plus concerts, movies and fitness. He is also into road trips and picking up adventure activities like surfing. Ask about his travels for the full list." },
     { patterns: ['hello', 'hi', 'hey'], reply: "Hey! Ask me about Mohak's experience, skills, projects, education, hobbies, or how to reach him." },
@@ -1861,7 +1877,7 @@
     "Interests: travelling, concerts, movies and fitness; also road trips and picking up adventure activities like surfing. Favourite food is Italian, Chinese and Punjabi.",
     "Travel: has been to Andaman, Leh Ladakh, Kashmir, Japan (including a business trip to Fujitsu's Japan office, photos are on the site), Kanyakumari, Meghalaya (Shillong, Cherrapunji, Dawki), Gujarat, Mumbai, Manali, Kasol, Varkala, Coorg, Madurai, Chennai, Goa, Chikmagalur, Hampi, Tirupati, Munnar, Mathura, Vrindavan, Dehradun, Rishikesh, Udupi, Mysore, Almora, Ujjain, Khatu Shyam, Kodaikanal, Ayodhya, Ooty, Mcleod Ganj, Gokarna and Amritsar. Has visited 11 of the 12 jyotirlingas and 3 of the 4 dhams; Baidyanath in Jharkhand and Jagannath Puri are the remaining ones.",
     "Live PR status: the Projects section lists his five open-source pull requests and each row shows a live status badge (merged, open or closed) pulled from GitHub. You cannot see the current status, so never claim whether a PR is merged; point to the badge on the row.",
-    "Travel map: the site has an interactive travel map of India in the Places I've been section with pins for jyotirlingas, Char Dham and trips, and progress trackers. Jyotirlingas visited (11 of 12): Somnath, Nageshwar (Dwarka), Mallikarjuna (Srisailam), Mahakaleshwar (Ujjain), Omkareshwar, Kedarnath, Bhimashankar, Kashi Vishwanath (Varanasi), Trimbakeshwar (Nashik), Rameshwaram, Grishneshwar (Ellora); Baidyanath (Deoghar, Jharkhand) is still left. Char Dham visited (3 of 4): Badrinath, Dwarka, Rameshwaram; Jagannath Puri is still left.",
+    "Travel map: the site has an interactive travel map of India in the Places I've been section with pins for jyotirlingas, Char Dham and trips, progress trackers, and markers for his hometown Meerut and current city Bangalore. Jyotirlingas visited (11 of 12): Somnath, Nageshwar (Dwarka), Mallikarjuna (Srisailam), Mahakaleshwar (Ujjain), Omkareshwar, Kedarnath, Bhimashankar, Kashi Vishwanath (Varanasi), Trimbakeshwar (Nashik), Rameshwaram, Grishneshwar (Ellora); Baidyanath (Deoghar, Jharkhand) is still left. Char Dham visited (3 of 4): Badrinath, Dwarka, Rameshwaram; Jagannath Puri is still left.",
     "Story: started out coding in Python, got drawn to data, which led to building large data pipelines, and then down the stack into ARM performance work on MONAKA. Python is his strongest language.",
     "Goals: open to relocating, wants to keep growing in tech and grow into leadership at a good organization.",
     "FORMAT RULE: by default answer in short plain sentences. If the visitor asks for bullet points, bullets, points or a list, answer with each point on its own line starting with a hyphen and a space, one short line per point, at most 8 points, no bold or other markdown, and no lead-in sentence. If the visitor only asks you to reformat (for example give in bullet points) apply that to your previous answer instead of asking what they mean.",
@@ -2133,7 +2149,7 @@
 
   // travel map
   (function(){
-    var pins = [{"t":"jl","n":"Somnath","s":"Gujarat","x":47.0,"y":320.0,"v":1,"i":0},{"t":"jl","n":"Nageshwar","s":"Dwarka, Gujarat","x":23.3,"y":291.7,"v":1,"i":1},{"t":"jl","n":"Mallikarjuna","s":"Srisailam, Andhra Pradesh","x":200.1,"y":414.0,"v":1,"i":2},{"t":"jl","n":"Mahakaleshwar","s":"Ujjain, Madhya Pradesh","x":144.3,"y":275.3,"v":1,"i":3},{"t":"jl","n":"Omkareshwar","s":"Madhya Pradesh","x":151.0,"y":293.7,"v":1,"i":4},{"t":"jl","n":"Kedarnath","s":"Uttarakhand","x":203.8,"y":127.9,"v":1,"i":5},{"t":"jl","n":"Bhimashankar","s":"Maharashtra","x":103.8,"y":355.5,"v":1,"i":6},{"t":"jl","n":"Kashi Vishwanath","s":"Varanasi, Uttar Pradesh","x":275.0,"y":233.8,"v":1,"i":7},{"t":"jl","n":"Trimbakeshwar","s":"Nashik, Maharashtra","x":103.6,"y":338.7,"v":1,"i":8},{"t":"jl","n":"Baidyanath","s":"Deoghar, Jharkhand","x":341.7,"y":249.8,"v":0,"i":9},{"t":"jl","n":"Rameshwaram","s":"Tamil Nadu","x":208.1,"y":546.2,"v":1,"i":10},{"t":"jl","n":"Grishneshwar","s":"Ellora, Maharashtra","x":133.4,"y":337.0,"v":1,"i":11},{"t":"dham","n":"Badrinath","s":"Uttarakhand","x":211.4,"y":127.9,"v":1,"i":12},{"t":"dham","n":"Dwarka","s":"Gujarat","x":21.2,"y":293.7,"v":1,"i":13},{"t":"dham","n":"Rameshwaram","s":"Tamil Nadu","x":208.1,"y":546.2,"v":1,"i":14},{"t":"dham","n":"Jagannath Puri","s":"Odisha","x":326.0,"y":341.2,"v":0,"i":15},{"t":"trip","n":"Andaman","s":"Andaman Islands","x":450.7,"y":500.8,"v":1,"i":16},{"t":"trip","n":"Leh Ladakh","s":"Ladakh","x":176.8,"y":61.4,"v":1,"i":17},{"t":"trip","n":"Kashmir","s":"Jammu and Kashmir","x":126.6,"y":62.8,"v":1,"i":18},{"t":"trip","n":"Kanyakumari","s":"Tamil Nadu","x":176.3,"y":569.8,"v":1,"i":19},{"t":"trip","n":"Meghalaya","s":"Shillong, Cherrapunji, Dawki","x":435.7,"y":232.0,"v":1,"i":20},{"t":"trip","n":"Gujarat","s":"Ahmedabad and around","x":86.2,"y":278.5,"v":1,"i":21},{"t":"trip","n":"Mumbai","s":"Maharashtra","x":91.8,"y":355.3,"v":1,"i":22},{"t":"trip","n":"Manali and Kasol","s":"Himachal Pradesh","x":170.9,"y":101.0,"v":1,"i":23},{"t":"trip","n":"Varkala","s":"Kerala","x":161.3,"y":557.1,"v":1,"i":24},{"t":"trip","n":"Coorg","s":"Karnataka","x":143.6,"y":485.2,"v":1,"i":25},{"t":"trip","n":"Madurai","s":"Tamil Nadu","x":186.6,"y":533.9,"v":1,"i":26},{"t":"trip","n":"Chennai","s":"Tamil Nadu","x":225.5,"y":472.3,"v":1,"i":27},{"t":"trip","n":"Goa","s":"Goa","x":109.0,"y":425.1,"v":1,"i":28},{"t":"trip","n":"Chikmagalur","s":"Karnataka","x":144.1,"y":467.6,"v":1,"i":29},{"t":"trip","n":"Hampi","s":"Karnataka","x":156.6,"y":428.2,"v":1,"i":30},{"t":"trip","n":"Tirupati","s":"Andhra Pradesh","x":210.1,"y":461.6,"v":1,"i":31},{"t":"trip","n":"Munnar","s":"Kerala","x":167.4,"y":530.6,"v":1,"i":32},{"t":"trip","n":"Mathura and Vrindavan","s":"Uttar Pradesh","x":178.8,"y":190.1,"v":1,"i":33},{"t":"trip","n":"Dehradun and Rishikesh","s":"Uttarakhand","x":187.1,"y":138.4,"v":1,"i":34},{"t":"trip","n":"Udupi","s":"Karnataka","x":125.5,"y":467.2,"v":1,"i":35},{"t":"trip","n":"Mysore","s":"Karnataka","x":159.8,"y":487.5,"v":1,"i":36},{"t":"trip","n":"Almora","s":"Uttarakhand","x":214.4,"y":150.1,"v":1,"i":37},{"t":"trip","n":"Khatu Shyam","s":"Rajasthan","x":137.4,"y":193.8,"v":1,"i":38},{"t":"trip","n":"Kodaikanal","s":"Tamil Nadu","x":175.2,"y":527.7,"v":1,"i":39},{"t":"trip","n":"Ayodhya","s":"Uttar Pradesh","x":260.4,"y":204.7,"v":1,"i":40},{"t":"trip","n":"Ooty","s":"Tamil Nadu","x":160.9,"y":504.9,"v":1,"i":41},{"t":"trip","n":"Mcleod Ganj","s":"Himachal Pradesh","x":154.0,"y":98.7,"v":1,"i":42},{"t":"trip","n":"Gokarna","s":"Karnataka","x":117.9,"y":443.6,"v":1,"i":43},{"t":"trip","n":"Amritsar","s":"Punjab","x":127.8,"y":110.6,"v":1,"i":44},{"t":"trip","n":"Ujjain","s":"Madhya Pradesh","x":144.3,"y":275.3,"v":1,"i":45,"h":1,"l":3}];
+    var pins = [{"t":"jl","n":"Somnath","s":"Gujarat","x":47.0,"y":320.0,"v":1,"i":0},{"t":"jl","n":"Nageshwar","s":"Dwarka, Gujarat","x":23.3,"y":291.7,"v":1,"i":1},{"t":"jl","n":"Mallikarjuna","s":"Srisailam, Andhra Pradesh","x":200.1,"y":414.0,"v":1,"i":2},{"t":"jl","n":"Mahakaleshwar","s":"Ujjain, Madhya Pradesh","x":144.3,"y":275.3,"v":1,"i":3},{"t":"jl","n":"Omkareshwar","s":"Madhya Pradesh","x":151.0,"y":293.7,"v":1,"i":4},{"t":"jl","n":"Kedarnath","s":"Uttarakhand","x":203.8,"y":127.9,"v":1,"i":5},{"t":"jl","n":"Bhimashankar","s":"Maharashtra","x":103.8,"y":355.5,"v":1,"i":6},{"t":"jl","n":"Kashi Vishwanath","s":"Varanasi, Uttar Pradesh","x":275.0,"y":233.8,"v":1,"i":7},{"t":"jl","n":"Trimbakeshwar","s":"Nashik, Maharashtra","x":103.6,"y":338.7,"v":1,"i":8},{"t":"jl","n":"Baidyanath","s":"Deoghar, Jharkhand","x":341.7,"y":249.8,"v":0,"i":9},{"t":"jl","n":"Rameshwaram","s":"Tamil Nadu","x":208.1,"y":546.2,"v":1,"i":10},{"t":"jl","n":"Grishneshwar","s":"Ellora, Maharashtra","x":133.4,"y":337.0,"v":1,"i":11},{"t":"dham","n":"Badrinath","s":"Uttarakhand","x":211.4,"y":127.9,"v":1,"i":12},{"t":"dham","n":"Dwarka","s":"Gujarat","x":21.2,"y":293.7,"v":1,"i":13},{"t":"dham","n":"Rameshwaram","s":"Tamil Nadu","x":208.1,"y":546.2,"v":1,"i":14},{"t":"dham","n":"Jagannath Puri","s":"Odisha","x":326.0,"y":341.2,"v":0,"i":15},{"t":"trip","n":"Andaman","s":"Andaman Islands","x":450.7,"y":500.8,"v":1,"i":16},{"t":"trip","n":"Leh Ladakh","s":"Ladakh","x":176.8,"y":61.4,"v":1,"i":17},{"t":"trip","n":"Kashmir","s":"Jammu and Kashmir","x":126.6,"y":62.8,"v":1,"i":18},{"t":"trip","n":"Kanyakumari","s":"Tamil Nadu","x":176.3,"y":569.8,"v":1,"i":19},{"t":"trip","n":"Meghalaya","s":"Shillong, Cherrapunji, Dawki","x":435.7,"y":232.0,"v":1,"i":20},{"t":"trip","n":"Gujarat","s":"Ahmedabad and around","x":86.2,"y":278.5,"v":1,"i":21},{"t":"trip","n":"Mumbai","s":"Maharashtra","x":91.8,"y":355.3,"v":1,"i":22},{"t":"trip","n":"Manali and Kasol","s":"Himachal Pradesh","x":170.9,"y":101.0,"v":1,"i":23},{"t":"trip","n":"Varkala","s":"Kerala","x":161.3,"y":557.1,"v":1,"i":24},{"t":"trip","n":"Coorg","s":"Karnataka","x":143.6,"y":485.2,"v":1,"i":25},{"t":"trip","n":"Madurai","s":"Tamil Nadu","x":186.6,"y":533.9,"v":1,"i":26},{"t":"trip","n":"Chennai","s":"Tamil Nadu","x":225.5,"y":472.3,"v":1,"i":27},{"t":"trip","n":"Goa","s":"Goa","x":109.0,"y":425.1,"v":1,"i":28},{"t":"trip","n":"Chikmagalur","s":"Karnataka","x":144.1,"y":467.6,"v":1,"i":29},{"t":"trip","n":"Hampi","s":"Karnataka","x":156.6,"y":428.2,"v":1,"i":30},{"t":"trip","n":"Tirupati","s":"Andhra Pradesh","x":210.1,"y":461.6,"v":1,"i":31},{"t":"trip","n":"Munnar","s":"Kerala","x":167.4,"y":530.6,"v":1,"i":32},{"t":"trip","n":"Mathura and Vrindavan","s":"Uttar Pradesh","x":178.8,"y":190.1,"v":1,"i":33},{"t":"trip","n":"Dehradun and Rishikesh","s":"Uttarakhand","x":187.1,"y":138.4,"v":1,"i":34},{"t":"trip","n":"Udupi","s":"Karnataka","x":125.5,"y":467.2,"v":1,"i":35},{"t":"trip","n":"Mysore","s":"Karnataka","x":159.8,"y":487.5,"v":1,"i":36},{"t":"trip","n":"Almora","s":"Uttarakhand","x":214.4,"y":150.1,"v":1,"i":37},{"t":"trip","n":"Khatu Shyam","s":"Rajasthan","x":137.4,"y":193.8,"v":1,"i":38},{"t":"trip","n":"Kodaikanal","s":"Tamil Nadu","x":175.2,"y":527.7,"v":1,"i":39},{"t":"trip","n":"Ayodhya","s":"Uttar Pradesh","x":260.4,"y":204.7,"v":1,"i":40},{"t":"trip","n":"Ooty","s":"Tamil Nadu","x":160.9,"y":504.9,"v":1,"i":41},{"t":"trip","n":"Mcleod Ganj","s":"Himachal Pradesh","x":154.0,"y":98.7,"v":1,"i":42},{"t":"trip","n":"Gokarna","s":"Karnataka","x":117.9,"y":443.6,"v":1,"i":43},{"t":"trip","n":"Amritsar","s":"Punjab","x":127.8,"y":110.6,"v":1,"i":44},{"t":"trip","n":"Ujjain","s":"Madhya Pradesh","x":144.3,"y":275.3,"v":1,"i":45,"h":1,"l":3},{"t":"home","n":"Meerut","s":"Uttar Pradesh","x":179.0,"y":162.2,"v":1,"i":46},{"t":"now","n":"Bangalore","s":"Karnataka","x":177.0,"y":474.4,"v":1,"i":47}];
     var svgNS = 'http://www.w3.org/2000/svg';
     var layer = document.getElementById('tpins');
     var wrap = document.getElementById('tmapWrap');
@@ -2160,7 +2176,7 @@
       var b = document.createElement('span'); b.textContent = p.s;
       tip.appendChild(a); tip.appendChild(b);
       var c = document.createElement('em');
-      c.textContent = p.t === 'jl' ? (p.v ? 'Jyotirlinga visited' : 'Jyotirlinga, next up') : p.t === 'dham' ? (p.v ? 'Char Dham visited' : 'Char Dham, next up') : 'Trip';
+      c.textContent = p.t === 'jl' ? (p.v ? 'Jyotirlinga visited' : 'Jyotirlinga, next up') : p.t === 'dham' ? (p.v ? 'Char Dham visited' : 'Char Dham, next up') : p.t === 'home' ? 'Hometown' : p.t === 'now' ? 'Based here now' : 'Trip';
       tip.appendChild(c);
       var tw = Math.min(220, wr.width - 12);
       var left = Math.max(6, Math.min(px - tw / 2, wr.width - tw - 6));
@@ -2183,15 +2199,24 @@
       var g = el('g', { 'class': 'tpin tpin--' + p.t + (p.v ? '' : ' is-next'), tabindex: '0', role: 'button', 'aria-label': label(p), 'data-t': p.t, 'data-i': p.i });
       g.style.setProperty('--i', p.i);
       var pop = el('g', { 'class': 'tpin-pop' });
-      if (!p.v) pop.appendChild(el('circle', { 'class': 'tpin-pulse', cx: p.x, cy: p.y, r: 6 }));
+      if (!p.v || p.t === 'now') pop.appendChild(el('circle', { 'class': 'tpin-pulse', cx: p.x, cy: p.y, r: 6 }));
       pop.appendChild(el('circle', { 'class': 'tpin-halo', cx: p.x, cy: p.y, r: 9 }));
-      if (p.t === 'dham') {
+      if (p.t === 'home') {
+        pop.appendChild(el('path', { 'class': 'tpin-body', d: 'M' + (p.x - 7.5) + ' ' + (p.y + 1) + 'L' + p.x + ' ' + (p.y - 7) + 'L' + (p.x + 7.5) + ' ' + (p.y + 1) + 'V' + (p.y + 7) + 'H' + (p.x - 7.5) + 'Z' }));
+      } else if (p.t === 'now') {
+        pop.appendChild(el('circle', { 'class': 'tpin-body', cx: p.x, cy: p.y, r: 6 }));
+      } else if (p.t === 'dham') {
         var r = 7.5;
         pop.appendChild(el('polygon', { 'class': 'tpin-body', points: p.x + ',' + (p.y - r) + ' ' + (p.x + r) + ',' + p.y + ' ' + p.x + ',' + (p.y + r) + ' ' + (p.x - r) + ',' + p.y }));
       } else {
         pop.appendChild(el('circle', { 'class': 'tpin-body', cx: p.x, cy: p.y, r: p.t === 'trip' ? 5 : 4.6 }));
       }
       g.appendChild(pop);
+      if (p.t === 'home' || p.t === 'now') {
+        var lab = el('text', { 'class': 'tmap-label', x: p.t === 'home' ? p.x + 12 : p.x, y: p.t === 'home' ? p.y + 4 : p.y - 13, 'text-anchor': p.t === 'home' ? 'start' : 'middle' });
+        lab.textContent = p.n;
+        g.appendChild(lab);
+      }
       g.addEventListener('mouseenter', function(){ showTip(p); });
       g.addEventListener('mouseleave', function(){ hideTip(p); });
       g.addEventListener('focus', function(){ showTip(p); });
@@ -2233,6 +2258,22 @@
     }
     build('jl', 'jlBar', 'jlList', 'jlCount');
     build('dham', 'dhamBar', 'dhamList', 'dhamCount');
+    var homeList = document.getElementById('homeList');
+    pins.filter(function(p){ return p.t === 'home' || p.t === 'now'; }).forEach(function(p){
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      var name = document.createElement('span');
+      name.textContent = p.n + ', ' + p.s;
+      var tag = document.createElement('span');
+      tag.className = 'next-tag';
+      tag.textContent = p.t === 'home' ? 'hometown' : 'based now';
+      btn.appendChild(name); btn.appendChild(tag);
+      btn.addEventListener('mouseenter', function(){ hot(p.i, true); });
+      btn.addEventListener('mouseleave', function(){ hot(p.i, false); });
+      btn.addEventListener('click', function(){ showTip(p); });
+      homeList.appendChild(btn);
+      listBtns[p.i] = btn;
+    });
     var chips = document.getElementById('tripChips');
     pins.filter(function(p){ return p.t === 'trip'; }).forEach(function(p){
       var b = document.createElement('button');
@@ -2253,7 +2294,8 @@
       var f = b.getAttribute('data-f');
       tip.classList.remove('is-on');
       layer.querySelectorAll('.tpin').forEach(function(g){
-        g.classList.toggle('is-dim', f !== 'all' && g.getAttribute('data-t') !== f);
+        var gt = g.getAttribute('data-t');
+        g.classList.toggle('is-dim', f !== 'all' && gt !== f && gt !== 'home' && gt !== 'now');
       });
     });
 
