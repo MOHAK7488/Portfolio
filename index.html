@@ -229,6 +229,42 @@
   @keyframes prLive{ 0%,100%{ opacity:1; } 50%{ opacity:.3; } }
   @media (prefers-reduced-motion:reduce){ .pr-st.is-new, .pr-live.is-live .pr-live__dot{ animation:none !important; } }
 
+  /* ---------- Pipeline playground ---------- */
+  .pl{ border:1px solid var(--line); background:var(--surface); border-radius:14px; padding:1.1rem; }
+  .pl-ctrl{ display:flex; flex-wrap:wrap; gap:.6rem .8rem; align-items:center; margin-bottom:1.1rem; }
+  .pl-btn,.pl-seg{ font:500 .8rem var(--mono); border:1px solid var(--line); background:var(--surface-2); color:var(--ink); padding:.45rem .8rem; border-radius:8px; cursor:pointer; }
+  .pl-btn--main{ background:var(--accent); color:var(--accent-ink); border-color:var(--accent); min-width:4.6rem; }
+  .pl-grp{ display:inline-flex; border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+  .pl-seg{ border:0; border-radius:0; background:transparent; }
+  .pl-seg.on{ background:var(--accent); color:var(--accent-ink); }
+  .pl-chk{ font:.78rem var(--mono); color:var(--muted); cursor:pointer; }
+  .pl-chk span{ display:inline-flex; align-items:center; gap:.35rem; }
+  .pl-chk i{ width:9px; height:9px; border-radius:50%; display:inline-block; }
+  .pl-chk input{ accent-color:var(--accent); margin-right:.3rem; }
+  .pl-btn:focus-visible,.pl-seg:focus-visible,.pl-chk input:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  .pl-board{ position:relative; display:grid; grid-template-columns:repeat(6,1fr); gap:.7rem; padding:1.6rem 0 1.2rem; }
+  .pl-board::before{ content:""; position:absolute; left:4%; right:4%; top:50%; border-top:2px dashed var(--line); }
+  .pl-stage{ position:relative; z-index:1; background:var(--surface-2); border:1px solid var(--line); border-radius:10px; padding:.8rem .6rem; text-align:center; min-height:84px; display:flex; flex-direction:column; justify-content:center; gap:.2rem; transition:border-color .25s, box-shadow .25s; }
+  .pl-stage b{ font:600 .85rem var(--disp); }
+  .pl-stage span{ font:.68rem var(--mono); color:var(--muted); }
+  .pl-stage.on{ border-color:var(--accent); box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent); }
+  .pl-tray{ position:absolute; left:50%; bottom:-1.15rem; transform:translateX(-50%); font:normal .66rem var(--mono); padding:.12rem .5rem; border-radius:99px; border:1px dashed var(--st-closed); color:var(--st-closed); background:var(--surface); white-space:nowrap; }
+  .pl-flow{ position:absolute; inset:0; z-index:2; pointer-events:none; }
+  .pl-pk{ position:absolute; left:0; top:0; width:14px; height:14px; margin:-7px 0 0 -7px; border-radius:50%; will-change:transform; box-shadow:0 0 0 2px var(--surface); }
+  .pl-orch{ text-align:center; font:.7rem var(--mono); color:var(--muted); border:1px dashed var(--line); border-radius:8px; padding:.4rem; margin:1rem 0; }
+  .pl-metrics{ display:grid; grid-template-columns:repeat(6,1fr); gap:.6rem; }
+  .pl-metrics div{ border:1px solid var(--line-soft); border-radius:10px; padding:.6rem .5rem; text-align:center; }
+  .pl-metrics b{ display:block; font:600 1.25rem var(--disp); color:var(--accent); font-variant-numeric:tabular-nums; }
+  .pl-metrics span{ font:.64rem var(--mono); color:var(--muted); }
+  .pl-log{ list-style:none; margin:.9rem 0 0; padding:0; font:.72rem var(--mono); color:var(--muted); min-height:5.4em; }
+  .pl-log li{ padding:.1rem 0; }
+  @media (max-width:760px){
+    .pl-board{ grid-template-columns:1fr; gap:1.1rem; }
+    .pl-board::before{ left:50%; right:auto; top:2%; bottom:2%; border-top:0; border-left:2px dashed var(--line); }
+    .pl-stage{ min-height:64px; }
+    .pl-metrics{ grid-template-columns:repeat(2,1fr); }
+  }
+
   /* ---------- Hero ---------- */
   .hero{ padding:4.5rem 0 3.5rem; position:relative; overflow:hidden; }
   .hero::after{
@@ -993,6 +1029,46 @@
   </div>
 </section>
 
+<section id="pipeline">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="section-tag">Try it</p>
+      <h2>Watch data move through a pipeline</h2>
+      <p class="lead">Records flow from source to serving. Turn on bad data, duplicates and schema drift, and see how each stage handles them. A simulation for illustration.</p>
+    </div>
+    <div class="pl reveal" id="pl">
+      <div class="pl-ctrl">
+        <button class="pl-btn pl-btn--main" id="plRun" type="button" aria-pressed="false">Run</button>
+        <button class="pl-btn" id="plReset" type="button">Reset</button>
+        <div class="pl-grp" role="group" aria-label="Speed"><button type="button" class="pl-seg on" data-sp="1">1x</button><button type="button" class="pl-seg" data-sp="2">2x</button><button type="button" class="pl-seg" data-sp="4">4x</button></div>
+        <div class="pl-grp" role="group" aria-label="Mode"><button type="button" class="pl-seg on" data-mode="stream">Streaming</button><button type="button" class="pl-seg" data-mode="batch">Batch</button></div>
+        <label class="pl-chk"><input type="checkbox" id="plBad" checked><span><i style="background:var(--st-closed)"></i>Bad records</span></label>
+        <label class="pl-chk"><input type="checkbox" id="plDup" checked><span><i style="background:#E0A030"></i>Duplicates</span></label>
+        <label class="pl-chk"><input type="checkbox" id="plDrift" checked><span><i style="background:var(--st-merged)"></i>Schema change</span></label>
+      </div>
+      <div class="pl-board" id="plBoard">
+        <div class="pl-stage" data-i="0"><b>Source</b><span>Kafka topics</span></div>
+        <div class="pl-stage" data-i="1"><b>Ingest</b><span>NiFi, schema evolution</span></div>
+        <div class="pl-stage" data-i="2"><b>Transform</b><span>PySpark, dedup</span></div>
+        <div class="pl-stage" data-i="3"><b>Validate</b><span>Great Expectations</span><em class="pl-tray" id="plTray" aria-label="Quarantine">0 held</em></div>
+        <div class="pl-stage" data-i="4"><b>Store</b><span>Delta Lake, Snowflake</span></div>
+        <div class="pl-stage" data-i="5"><b>Serve</b><span>Dashboards, ML</span></div>
+        <div class="pl-flow" id="plFlow" aria-hidden="true"></div>
+      </div>
+      <div class="pl-orch">Orchestrated by Airflow on Kubernetes</div>
+      <div class="pl-metrics">
+        <div><b id="plIn">0</b><span>Records in</span></div>
+        <div><b id="plLoaded">0</b><span>Loaded</span></div>
+        <div><b id="plDedup">0</b><span>Deduplicated</span></div>
+        <div><b id="plQuar">0</b><span>Quarantined</span></div>
+        <div><b id="plDrifts">0</b><span>Schema changes handled</span></div>
+        <div><b id="plLat">0 ms</b><span>Avg latency (simulated)</span></div>
+      </div>
+      <ul class="pl-log" id="plLog" aria-live="off"></ul>
+    </div>
+  </div>
+</section>
+
 <section id="publications">
   <div class="wrap">
     <div class="section-head reveal">
@@ -1486,6 +1562,7 @@
     { id: 'experience', label: 'Experience' },
     { id: 'projects', label: 'Projects' },
     { id: 'skills', label: 'Skills' },
+    { id: 'pipeline', label: 'Pipeline' },
     { id: 'publications', label: 'Publications' },
     { id: 'recognition', label: 'Recognition' },
     { id: 'travel', label: 'Travel' },
@@ -1523,6 +1600,7 @@
     { label: 'Go to Experience', desc: 'section', run: function(){ scrollToId('experience'); } },
     { label: 'Go to Projects', desc: 'section', run: function(){ scrollToId('projects'); } },
     { label: 'Go to Skills', desc: 'section', run: function(){ scrollToId('skills'); } },
+    { label: 'Go to Pipeline', desc: 'section', run: function(){ scrollToId('pipeline'); } },
     { label: 'Go to Publications', desc: 'section', run: function(){ scrollToId('publications'); } },
     { label: 'Go to Recognition', desc: 'section', run: function(){ scrollToId('recognition'); } },
     { label: 'Go to Travel map', desc: 'section', run: function(){ scrollToId('travel'); } },
@@ -1697,6 +1775,7 @@
     { patterns: ['hsbc'], reply: "At HSBC Pune (2021 to 2022, about one year) he started as a Trainee Software Engineer. He built a Python sync framework between AWS S3 and on-premise storage with 99.9% data consistency, with checksum validation and retry logic, and cut storage footprint 40% and transfer time 60% on 5TB datasets." },
     { patterns: ['birthday', 'date of birth', 'dob', 'born', 'birth place', 'birthplace', 'when was he born', 'how old', 'his age', 'what age', 'zodiac'], reply: "Mohak was born on 13 July 1999 in Meerut, Uttar Pradesh, so he is " + botAge() + " years old." },
     { patterns: ['merged', 'pr status', 'pull request status', 'prs merged', 'are the prs', 'status of his pr', 'live status'], reply: "His five open-source pull requests are listed in the Projects section, and each row shows its live status from GitHub (merged, open or closed), so it is always current. I can't see the live status from here, so check the row for the latest." },
+    { patterns: ['pipeline demo', 'run a pipeline', 'data pipeline you can run', 'pipeline playground', 'simulation', 'playground', 'try it', 'interactive demo'], reply: "The Try it section has a pipeline you can run. Records flow from Kafka through ingest, transform, validate, store and serve. You can switch on bad records, duplicates and schema changes, and flip between streaming and batch to see how each stage reacts. It is a simulation for illustration." },
     { patterns: ['hometown', 'where is he from', 'where are you from', 'where he is from', 'native place', 'native', 'grew up', 'home town', 'which city is he from', 'belong to'], reply: "His hometown is Meerut, Uttar Pradesh, where he was born. He is now based in Bangalore. Both are marked on the travel map in the Places I've been section." },
     { patterns: ['languages does he speak', 'speak', 'hindi', 'english', 'mother tongue', 'spoken language'], reply: "He speaks English and Hindi." },
     { patterns: ['japan', 'fujitsu office', 'business trip'], reply: "He went on a business trip to Fujitsu's Japan office, with some time to see Tokyo and Kyoto. Photos are in the 'On the ground' section near the bottom." },
@@ -1880,6 +1959,7 @@
     "Travel map: the site has an interactive travel map of India in the Places I've been section with pins for jyotirlingas, Char Dham and trips, progress trackers, and markers for his hometown Meerut and current city Bangalore. Jyotirlingas visited (11 of 12): Somnath, Nageshwar (Dwarka), Mallikarjuna (Srisailam), Mahakaleshwar (Ujjain), Omkareshwar, Kedarnath, Bhimashankar, Kashi Vishwanath (Varanasi), Trimbakeshwar (Nashik), Rameshwaram, Grishneshwar (Ellora); Baidyanath (Deoghar, Jharkhand) is still left. Char Dham visited (3 of 4): Badrinath, Dwarka, Rameshwaram; Jagannath Puri is still left.",
     "Story: started out coding in Python, got drawn to data, which led to building large data pipelines, and then down the stack into ARM performance work on MONAKA. Python is his strongest language.",
     "Goals: open to relocating, wants to keep growing in tech and grow into leadership at a good organization.",
+    "PIPELINE DEMO: the site has a Try it section with a runnable data pipeline simulation (Source Kafka, Ingest NiFi, Transform PySpark with dedup, Validate Great Expectations with a quarantine, Store Delta Lake and Snowflake, Serve dashboards and ML). Visitors can toggle bad records, duplicates, schema changes, streaming or batch, and watch live counters. It is an illustration, not real data.",
     "FORMAT RULE: by default answer in short plain sentences. If the visitor asks for bullet points, bullets, points or a list, answer with each point on its own line starting with a hyphen and a space, one short line per point, at most 8 points, no bold or other markdown, and no lead-in sentence. If the visitor only asks you to reformat (for example give in bullet points) apply that to your previous answer instead of asking what they mean.",
     "PRIVACY RULE: for salary, compensation, family, parents, relationships, marital status, home address, phone number or any similar private question, reply only that this is personal information that cannot be shared, and offer mohakgoel1@gmail.com for professional topics.",
     "Contact: mohakgoel1@gmail.com, plus GitHub and LinkedIn links in the footer. Open to new opportunities. A resume download button is in the hero."
@@ -2385,6 +2465,127 @@
         paint({}, now);
       }
     });
+  })();
+
+  // pipeline playground
+  (function(){
+    var root = document.getElementById('pl'); if (!root) return;
+    var board = document.getElementById('plBoard'), flow = document.getElementById('plFlow');
+    var stages = [].slice.call(board.querySelectorAll('.pl-stage'));
+    var $ = function(id){ return document.getElementById(id); };
+    var runBtn = $('plRun'), tray = $('plTray'), logEl = $('plLog');
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var COL = { ok:'var(--teal)', dup:'#E0A030', bad:'var(--st-closed)', drift:'var(--st-merged)' };
+    var NAMES = ['Source','Ingest','Transform','Validate','Store','Serve'];
+    var st, running = false, visible = false, last = 0, raf = 0, speed = 1, mode = 'stream';
+    function fresh(){ st = { pk:[], queue:[], id:0, now:0, spawn:0, qSince:0, inN:0, loaded:0, dedup:0, quar:0, drifts:0, latSum:0, latN:0, lit:{} }; }
+    fresh();
+    function log(msg){
+      var li = document.createElement('li'); li.textContent = msg; logEl.insertBefore(li, logEl.firstChild);
+      while (logEl.children.length > 5) logEl.removeChild(logEl.lastChild);
+    }
+    function pos(i){
+      var b = board.getBoundingClientRect(), s = stages[Math.max(0, Math.min(5, i))].getBoundingClientRect();
+      return { x: s.left - b.left + s.width/2, y: s.top - b.top + s.height/2 };
+    }
+    function pt(p){
+      var t = Math.max(0, p.t), a = Math.floor(t), b = Math.min(5, a + 1), f = t - a;
+      var A = pos(a), B = pos(b);
+      return { x: A.x + (B.x - A.x) * f, y: A.y + (B.y - A.y) * f };
+    }
+    function mk(type, born){
+      var el = document.createElement('div'); el.className = 'pl-pk'; el.style.background = COL[type];
+      flow.appendChild(el);
+      return { id: ++st.id, type: type, t: 0, born: born, el: el, done: 0, trayed: false, fade: 0 };
+    }
+    function spawnOne(){
+      if (st.pk.length > 40) return;
+      var r = Math.random(), type = 'ok';
+      if ($('plBad').checked && r < .16) type = 'bad';
+      else if ($('plDrift').checked && r < .30) type = 'drift';
+      var rec = { type: type, born: st.now, dup: $('plDup').checked && Math.random() < .2 };
+      st.inN++;
+      if (mode === 'batch') { if (!st.queue.length) st.qSince = st.now; st.queue.push(rec); }
+      else release(rec, 0);
+    }
+    function release(rec, off){
+      var p = mk(rec.type, rec.born); p.t = -off; st.pk.push(p);
+      if (rec.dup) { var d = mk('dup', rec.born); d.t = -off - .28; d.id = p.id; st.pk.push(d); st.inN++; }
+    }
+    function arrive(p, i){
+      st.lit[i] = st.now;
+      if (i === 1 && p.type === 'drift') { st.drifts++; p.type = 'ok'; p.el.style.background = COL.ok; log('rec#' + p.id + ' new column detected, schema evolved'); }
+      if (i === 2 && p.type === 'dup') { st.dedup++; p.fade = 1; log('rec#' + p.id + ' duplicate dropped at Transform'); }
+      if (i === 3 && p.type === 'bad') { st.quar++; p.trayed = true; p.tk = 0; tray.textContent = st.quar + ' held'; log('rec#' + p.id + ' failed validation, quarantined'); }
+      if (i === 4 && p.type === 'ok') { st.loaded++; var ms = (st.now - p.born) * 110; st.latSum += ms; st.latN++; log('rec#' + p.id + ' loaded to Delta table'); }
+      if (i === 5) p.fade = 1;
+    }
+    function step(dt){
+      st.now += dt;
+      st.spawn += dt;
+      while (st.spawn >= .75) { st.spawn -= .75; spawnOne(); }
+      if (mode === 'batch' && st.queue.length && (st.queue.length >= 6 || st.now - st.qSince >= 4)) {
+        var q = st.queue; st.queue = []; log('batch of ' + q.length + ' released from Source');
+        q.forEach(function(r, k){ release(r, k * .22); });
+      }
+      st.pk.forEach(function(p){
+        if (p.trayed) { p.tk += dt * 1.6; return; }
+        if (p.fade) { p.fade -= dt * 3; return; }
+        var o = Math.floor(Math.max(0, p.t));
+        p.t += dt * 1.1;
+        var n = Math.floor(p.t);
+        for (var i = o + 1; i <= Math.min(5, n); i++) { if (!p.fade && !p.trayed && p.t >= i) arrive(p, i); }
+        if (p.t >= 5) p.t = 5;
+      });
+      st.pk = st.pk.filter(function(p){ if ((p.trayed && p.tk >= 1) || (!p.trayed && p.fade && p.fade <= 0)) { p.el.remove(); return false; } return true; });
+    }
+    function draw(){
+      var T = pos(3), tb = tray.getBoundingClientRect(), bb = board.getBoundingClientRect();
+      var tx = tb.left - bb.left + tb.width/2, ty = tb.top - bb.top + tb.height/2;
+      st.pk.forEach(function(p){
+        var q = pt(p);
+        if (p.trayed) { var k = Math.min(1, p.tk); q = { x: T.x + (tx - T.x) * k, y: T.y + (ty - T.y) * k }; }
+        p.el.style.transform = 'translate(' + q.x.toFixed(1) + 'px,' + q.y.toFixed(1) + 'px)';
+        p.el.style.opacity = p.t < 0 ? 0 : (p.trayed ? 1 : (p.fade ? Math.max(0, p.fade) : 1));
+      });
+      stages.forEach(function(s, i){ s.classList.toggle('on', st.lit[i] !== undefined && st.now - st.lit[i] < .35); });
+      $('plIn').textContent = st.inN; $('plLoaded').textContent = st.loaded; $('plDedup').textContent = st.dedup;
+      $('plQuar').textContent = st.quar; $('plDrifts').textContent = st.drifts;
+      $('plLat').textContent = st.latN ? Math.round(st.latSum / st.latN) + ' ms' : '0 ms';
+    }
+    function frame(ts){
+      raf = 0;
+      if (!running || !visible) return;
+      var dt = Math.min(.1, (ts - last) / 1000) * speed; last = ts;
+      step(dt); draw();
+      raf = requestAnimationFrame(frame);
+    }
+    function setRun(v){
+      running = v; runBtn.textContent = v ? 'Pause' : 'Run'; runBtn.setAttribute('aria-pressed', v ? 'true' : 'false');
+      if (v && visible && !raf) { last = performance.now(); raf = requestAnimationFrame(frame); }
+    }
+    function reset(){
+      flow.innerHTML = ''; fresh(); tray.textContent = '0 held'; logEl.innerHTML = '';
+      draw();
+    }
+    runBtn.addEventListener('click', function(){ setRun(!running); });
+    $('plReset').addEventListener('click', function(){ reset(); });
+    root.querySelectorAll('[data-sp]').forEach(function(b){ b.addEventListener('click', function(){
+      speed = +b.getAttribute('data-sp'); root.querySelectorAll('[data-sp]').forEach(function(x){ x.classList.toggle('on', x === b); }); }); });
+    root.querySelectorAll('[data-mode]').forEach(function(b){ b.addEventListener('click', function(){
+      mode = b.getAttribute('data-mode'); root.querySelectorAll('[data-mode]').forEach(function(x){ x.classList.toggle('on', x === b); });
+      if (mode === 'stream' && st.queue.length) { var q = st.queue; st.queue = []; q.forEach(function(r, k){ release(r, k * .22); }); }
+      log(mode === 'batch' ? 'batch mode: records wait at Source, then load together' : 'streaming mode: records flow one by one'); }); });
+    window.addEventListener('resize', function(){ draw(); });
+    var started = false;
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function(es){
+        visible = es[0].isIntersecting;
+        if (visible && !started && !reduce) { started = true; setRun(true); }
+        else if (visible && running && !raf) { last = performance.now(); raf = requestAnimationFrame(frame); }
+      }, { threshold: .25 }).observe(root);
+    } else { visible = true; }
+    log('press Run to send records through the pipeline');
   })();
 
   // konami code easter egg
