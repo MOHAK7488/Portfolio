@@ -849,17 +849,23 @@
               </div>
               <span class="timeline__dates">2024-Present</span>
             </div>
-            <p class="timeline__summary">Leading data-processing design for MONAKA, a next-generation ARM-based chip for data centers.</p>
+            <p class="timeline__summary">Leading a team building the data-processing stack for MONAKA, a next-generation ARM-based chip for data centers.</p>
             <span class="timeline__expand">Details</span>
           </summary>
           <ul class="timeline__bullets">
+            <li>Lead a team designing the data-processing solutions and software stack for MONAKA.</li>
+            <li>Shipped the MONAKA data pipeline in person during a one-week business trip to Fujitsu Japan, with a 4-member team alongside the Japan engineering teams.</li>
             <li>Designed and optimized distributed ETL pipelines with PySpark and Airflow, improving multi-terabyte dataset processing efficiency by 40%.</li>
             <li>Migrated legacy workflows from Azkaban to Airflow on Kubernetes with GitOps, enabling fault-tolerant, automated releases.</li>
             <li>Built modular Spark SQL and Delta Lake pipelines for engagement data cubes, lifting time-series query performance by 35%.</li>
-            <li>Integrated Apache NiFi for real-time ingestion and schema evolution across batch and streaming flows.</li>
+            <li>Orchestrated workflows across Airflow and Azure Data Factory with triggers, dependencies, retries and monitoring, loading into Spark and Delta Lake on Azure Blob Storage.</li>
+            <li>Integrated Apache NiFi for real-time ingestion and schema evolution across batch and streaming flows with guaranteed delivery.</li>
+            <li>Built Kafka streaming ingestion into Spark and Delta Lake, with topic partitioning and consumer-group tuning for high throughput and low latency.</li>
             <li>Embedded ML models directly into Spark pipelines for near real-time predictive scoring and continuous retraining.</li>
+            <li>Built LLM-powered automation (Claude, GenAI) that replaced manual benchmarking, log and profiling analysis, and build, test and PR steps with repeatable scripted runs, speeding up TiDB/TiKV tuning and ARM SVE/NEON kernel work.</li>
+            <li>Benchmarked TiDB clusters on ARM vs x86, tuned TiKV topology, and contributed ARM optimizations to RocksDB, TiKV, Crossbeam and Milvus Knowhere.</li>
           </ul>
-          <div class="chips"><span>PySpark</span><span>Airflow</span><span>Kubernetes</span><span>Delta Lake</span><span>Apache NiFi</span></div>
+          <div class="chips"><span>PySpark</span><span>Airflow</span><span>Azure Data Factory</span><span>Kubernetes</span><span>Delta Lake</span><span>Apache NiFi</span><span>Kafka</span><span>TiDB / TiKV</span><span>LLM automation</span></div>
         </details>
       </li>
 
@@ -883,8 +889,10 @@
             <li>Optimized Glue and Spark pipelines with caching, file compaction, and Great Expectations validation for a 67% cut in compute and storage cost.</li>
             <li>Automated orchestration with AWS Lambda, Step Functions, and CloudFormation, adding SLA enforcement and governance to every release.</li>
             <li>Prototyped Dremio for federated ANSI SQL queries across S3, Glue, and Spark without data duplication.</li>
+            <li>Ingested event streams through Kafka into the S3 data lake and ran large-scale batch transformation on Amazon EMR with partitioned, compressed storage to control cost.</li>
+            <li>Enabled serverless ad-hoc analytics with Amazon Athena over Glue Data Catalog tables, so analysts could query S3 without moving data.</li>
           </ul>
-          <div class="chips"><span>AWS S3</span><span>Glue</span><span>Spark</span><span>Snowflake</span><span>Lambda</span><span>CloudFormation</span><span>Dremio</span></div>
+          <div class="chips"><span>AWS S3</span><span>Glue</span><span>EMR</span><span>Athena</span><span>Spark</span><span>Snowflake</span><span>Kafka</span><span>Lambda</span><span>CloudFormation</span><span>Dremio</span></div>
         </details>
       </li>
 
@@ -1010,20 +1018,28 @@
     </div>
     <div class="skills-grid">
       <div class="skill-panel">
-        <h3>Systems &amp; low-level</h3>
-        <div class="chips"><span>C/C++</span><span>ARM NEON/SVE</span><span>CUDA</span><span>AVX</span><span>LLVM</span><span>Linux kernel</span></div>
+        <h3>Data engineering</h3>
+        <div class="chips"><span>PySpark</span><span>Spark SQL</span><span>Airflow</span><span>Kafka</span><span>Apache NiFi</span><span>Delta Lake</span><span>Snowflake</span><span>Dremio</span><span>Great Expectations</span><span>Azure Data Factory</span><span>Batch and streaming</span><span>Data modeling</span><span>Data quality</span></div>
       </div>
       <div class="skill-panel">
-        <h3>Data engineering &amp; cloud</h3>
-        <div class="chips"><span>PySpark</span><span>Airflow</span><span>Kafka</span><span>Snowflake</span><span>Delta Lake</span><span>Apache NiFi</span><span>AWS</span><span>Kubernetes</span></div>
+        <h3>Cloud &amp; DevOps</h3>
+        <div class="chips"><span>AWS S3</span><span>Glue</span><span>EMR</span><span>Athena</span><span>Lambda</span><span>Step Functions</span><span>CloudFormation</span><span>Azure (AZ-900)</span><span>Kubernetes</span><span>GitOps</span><span>GitLab CI/CD</span></div>
+      </div>
+      <div class="skill-panel">
+        <h3>Systems &amp; performance</h3>
+        <div class="chips"><span>ARM SVE/NEON</span><span>C/C++</span><span>Rust</span><span>CUDA</span><span>AVX</span><span>LLVM</span><span>Linux</span><span>Benchmarking</span><span>Concurrency</span><span>Memory ordering</span></div>
       </div>
       <div class="skill-panel">
         <h3>Databases</h3>
-        <div class="chips"><span>RocksDB</span><span>TiDB / TiKV</span><span>MongoDB</span><span>Cassandra</span></div>
+        <div class="chips"><span>RocksDB</span><span>TiDB / TiKV</span><span>Milvus</span><span>Snowflake</span><span>PostgreSQL</span><span>MongoDB</span><span>Cassandra</span><span>SQL</span></div>
       </div>
       <div class="skill-panel">
-        <h3>Languages &amp; tooling</h3>
-        <div class="chips"><span>Python</span><span>Java</span><span>SQL</span><span>Git</span><span>GitLab CI/CD</span></div>
+        <h3>AI &amp; ML</h3>
+        <div class="chips"><span>GenAI and LLM automation</span><span>RAG</span><span>Vector search (FAISS, HNSW, DiskANN)</span><span>scikit-learn</span><span>Deep learning</span><span>Models in Spark pipelines</span></div>
+      </div>
+      <div class="skill-panel">
+        <h3>Languages &amp; core</h3>
+        <div class="chips"><span>Python (advanced)</span><span>Java</span><span>C</span><span>C++</span><span>Rust</span><span>SQL</span><span>Distributed systems</span><span>DSA</span><span>Team leadership</span></div>
       </div>
     </div>
   </div>
@@ -1787,7 +1803,7 @@
     { patterns: ['why data', 'why did he', 'get into', 'got into', 'how did he start', 'how he started', 'started coding', 'inspir', 'motivat', 'why python', 'journey', 'his story'], reply: "He started out coding in Python, got drawn to data, and that grew into building large pipelines and then down the stack into ARM performance work on MONAKA. Python is still his strongest language." },
     { patterns: ['goal', 'relocat', 'remote', 'future', 'next role', 'looking for', 'aspir', 'leadership', 'ambition', 'where does he see', 'five years', '5 years'], reply: "He is open to relocating and wants to keep growing in tech and into leadership at a good organization. Email mohakgoel1@gmail.com to talk about opportunities." },
     { patterns: ['family', 'parent', 'father', 'mother', 'brother', 'sister', 'wife', 'girlfriend', 'married', 'marital', 'is he single', 'home address', 'phone number', 'whatsapp number', 'salary', 'ctc', 'compensation', 'notice period', 'expected pay'], reply: "That is personal information I can't share. For anything professional, email mohakgoel1@gmail.com." },
-    { patterns: ['database', 'databases', 'db ', 'dbs', 'datastore', 'data store', 'nosql', 'sql database', 'storage engine', 'rocksdb', 'tidb', 'tikv', 'mongodb', 'cassandra', 'snowflake', 'postgres', 'mysql', 'redis', 'vector database', 'vector db'], reply: "Databases and storage he has worked with: RocksDB, TiDB and TiKV (benchmarking and tuning on ARM vs x86), MongoDB, Cassandra, Snowflake, Delta Lake, AWS S3 data lakes, Dremio for federated SQL, and vector search through Milvus (knowhere). On the SQL side he works daily with Spark SQL and Snowflake." },
+    { patterns: ['database', 'databases', 'db ', 'dbs', 'datastore', 'data store', 'nosql', 'sql database', 'storage engine', 'rocksdb', 'tidb', 'tikv', 'mongodb', 'cassandra', 'snowflake', 'postgres', 'mysql', 'redis', 'vector database', 'vector db'], reply: "Databases and storage he has worked with: RocksDB, TiDB and TiKV (benchmarking and tuning on ARM vs x86), Milvus, PostgreSQL, MongoDB, Cassandra, Snowflake, Delta Lake, AWS S3 data lakes, Dremio for federated SQL, and vector search through Milvus (knowhere). On the SQL side he works daily with Spark SQL and Snowflake." },
     { patterns: ['pipeline', 'etl', 'spark', 'airflow', 'data engineering', 'data engineer', 'kafka', 'nifi', 'big data', 'data lake', 'delta lake', 'streaming', 'batch'], reply: "Data engineering is the core of his background. At Fujitsu he built distributed ETL with PySpark and Airflow (40% better multi-terabyte processing efficiency), Spark SQL and Delta Lake cubes (35% faster time-series queries), and NiFi ingestion. At Samsung he owned an AWS data lake and Spark/Snowflake ETL on 5TB+ of daily data, cutting reporting latency by 50% and compute cost by 67%." },
     { patterns: ['aws', 'cloud', 's3', 'glue', 'lambda', 'step functions', 'cloudformation', 'kubernetes', 'k8s', 'gitops', 'devops', 'ci/cd', 'docker'], reply: "On cloud he has built on AWS (S3 with IAM/STS, Glue, Lambda, Step Functions, CloudFormation), moved workflows from Azkaban to Airflow on Kubernetes with GitOps, and uses GitLab CI/CD. He also holds the AZ-900 Azure certification." },
     { patterns: ['python', 'java', 'rust', 'c++', 'c/c++', 'cuda', 'llvm', 'programming language', 'which languages', 'what languages', 'sql'], reply: "Languages: C/C++, Rust, Python, Java and SQL, plus low-level work in ARM NEON/SVE, CUDA, AVX, LLVM and the Linux kernel." },
@@ -1803,7 +1819,7 @@
     { patterns: ['who is', 'whoami', 'who are you', 'about mohak', 'introduce', 'tell me about him', 'tell me about mohak', 'background'], reply: "Mohak Goel is a Software Engineer II at Fujitsu Research of India, working on MONAKA, a next-generation ARM-based chip for data centers. He's based in Bangalore, India." },
     { patterns: ['total experience', 'how much experience', 'how many years', 'years of experience', 'how experienced', 'how long has he worked', 'overall experience', 'total exp', 'experience in total'], reply: "About 4 years of professional experience in total. Fujitsu Research of India since June 2024 as Software Engineer II, leading data-processing design for MONAKA and ARM performance work. Samsung R&D Institute Bangalore from 2022 to 2024 as Senior Engineer, owning a multi-zone AWS data lake and its ETL layer. HSBC Pune from 2021 to 2022 as Trainee Software Engineer, building AWS to on-premise data sync. Ask about any one company for the full detail." },
     { patterns: ['experience', 'work history', 'career', 'background'], reply: "Mohak builds data and performance systems end to end. At Fujitsu Research of India he leads data-processing design for MONAKA and optimizes open-source software for ARM, at Samsung R&D Institute Bangalore he owned a multi-zone AWS data lake and its ETL layer, and at HSBC he built the data-sync tooling between AWS and on-premise storage. See the Experience section for details on each." },
-    { patterns: ['skill', 'tech stack', 'language', 'tool', 'framework', 'good at', 'know how to', 'technologies', 'programming'], reply: "Python is his strongest language. His stack spans systems work (C/C++, ARM NEON/SVE, CUDA, LLVM) and data engineering (PySpark, Airflow, Kafka, Snowflake, AWS, Kubernetes). Full breakdown in the Skills section." },
+    { patterns: ['skill', 'tech stack', 'language', 'tool', 'framework', 'good at', 'know how to', 'technologies', 'programming'], reply: "Python is his strongest language. His stack spans data engineering (PySpark, Spark SQL, Airflow, Kafka, NiFi, Delta Lake, Snowflake, Azure Data Factory), cloud (AWS S3, Glue, EMR, Athena, Lambda, Kubernetes, Azure AZ-900 certified), systems work (ARM SVE/NEON, C/C++, Rust, CUDA, LLVM) and AI (GenAI and LLM automation, RAG, vector search). Full breakdown in the Skills section." },
     { patterns: ['project', 'github', 'open source', 'rocksdb', 'crossbeam', 'tikv', 'knowhere', 'milvus', 'built', 'built anything'], reply: "He's contributed ARM SVE optimizations to Milvus, TiKV's yatp scheduler, and crossbeam, plus an open PR on facebook/rocksdb. Personal builds include a flight price tracker, a churn classifier, and a hotel ordering platform. See the Projects section for links." },
     { patterns: ['education', 'degree', 'mtech', 'm.tech', 'btech', 'b.tech', 'bits', 'college', 'university', 'studied', 'study'], reply: "M.Tech in AI/ML from BITS Pilani (WILP), and a B.Tech in Computer Science from Dr. A.P.J. Abdul Kalam Technical University." },
     { patterns: ['contact', 'email', 'reach', 'linkedin', 'connect', 'talk', 'get in touch', 'social'], reply: "mohakgoel1@gmail.com, or find him on GitHub and LinkedIn via the links in the footer." },
@@ -1941,11 +1957,11 @@
     "Tenure by organization: Fujitsu Research of India, 2024 to present, started mid-2024 (June 2024), so compute the length from today's date. Samsung R&D Institute Bangalore, 2022 to 2024, about two years. HSBC Pune, 2021 to 2022, about one year.",
     "Role: Software Engineer II at Fujitsu Research of India, Bangalore. Leads data-processing design for MONAKA, Fujitsu's next-generation ARM-based chip for data centers. Benchmarks and tunes distributed databases on ARM, and sends performance fixes upstream.",
     "Earlier: Senior Engineer at Samsung R&D Institute Bangalore (data lake and ETL). Started at HSBC Pune as Trainee Software Engineer (AWS to on-premise data sync).",
-    "Fujitsu work: Distributed ETL with PySpark and Airflow improved multi-terabyte processing efficiency by 40%. Migrated workflows from Azkaban to Airflow on Kubernetes with GitOps. Spark SQL and Delta Lake pipelines for engagement data cubes lifted time-series query performance by 35%. Integrated Apache NiFi for real-time ingestion and schema evolution. Embedded ML models in Spark pipelines for near real-time scoring and retraining.",
-    "Samsung work: Owned a multi-zone AWS S3 data lake with IAM/STS access control. Spark and Snowflake ETL with schema evolution and deduplication cut reporting latency by 50% and lifted throughput 30 to 40% on 5TB+ of daily data. Glue and Spark optimization with caching, file compaction and Great Expectations cut compute and storage cost by 67%. Orchestration with AWS Lambda, Step Functions and CloudFormation. Prototyped Dremio for federated ANSI SQL across S3, Glue and Spark.",
+    "Fujitsu work: Distributed ETL with PySpark and Airflow improved multi-terabyte processing efficiency by 40%. Migrated workflows from Azkaban to Airflow on Kubernetes with GitOps. Spark SQL and Delta Lake pipelines for engagement data cubes lifted time-series query performance by 35%. Integrated Apache NiFi for real-time ingestion and schema evolution. Embedded ML models in Spark pipelines for near real-time scoring and retraining. Leads a team on the MONAKA software stack. Shipped the MONAKA data pipeline during a one-week on-site trip to Fujitsu Japan with a 4-member team. Orchestrates across Airflow and Azure Data Factory. Built Kafka streaming ingestion into Spark and Delta Lake. Built LLM-powered automation (Claude) for benchmarking, log and profiling analysis and build, test and PR steps, speeding TiDB/TiKV tuning and ARM SVE/NEON kernel work.",
+    "Samsung work: Owned a multi-zone AWS S3 data lake with IAM/STS access control. Spark and Snowflake ETL with schema evolution and deduplication cut reporting latency by 50% and lifted throughput 30 to 40% on 5TB+ of daily data. Glue and Spark optimization with caching, file compaction and Great Expectations cut compute and storage cost by 67%. Orchestration with AWS Lambda, Step Functions and CloudFormation. Prototyped Dremio for federated ANSI SQL across S3, Glue and Spark. Ingested Kafka streams into the S3 lake, ran Spark on Amazon EMR, and enabled analyst queries with Athena over Glue Data Catalog.",
     "HSBC work: Python sync framework between AWS S3 and on-premise storage with checksum validation and retry logic, 99.9% data consistency. Compression and transfer pipelines for 5TB datasets cut storage footprint 40% and transfer time 60%.",
     "Databases and storage: RocksDB, TiDB and TiKV (benchmarking and tuning on ARM vs x86), MongoDB, Cassandra, Snowflake, Delta Lake, AWS S3 data lakes, Dremio for federated SQL, vector search via Milvus (knowhere).",
-    "Skills: C/C++, ARM NEON/SVE, CUDA, AVX, LLVM, Linux kernel, Rust, Python, Java, SQL, PySpark, Airflow, Kafka, Snowflake, Delta Lake, Apache NiFi, AWS, Kubernetes, Git, GitLab CI/CD.",
+    "Skills: Data engineering: PySpark, Spark SQL, Airflow, Kafka, Apache NiFi, Delta Lake, Snowflake, Dremio, Great Expectations, Azure Data Factory, batch and streaming, data modeling, data quality. Cloud: AWS (S3, Glue, EMR, Athena, Lambda, Step Functions, CloudFormation), Azure (AZ-900 certified), Kubernetes, GitOps, GitLab CI/CD. Systems: ARM SVE/NEON, C/C++, Rust, CUDA, AVX, LLVM, Linux, benchmarking, concurrency, memory ordering. Databases: RocksDB, TiDB/TiKV, Milvus, Snowflake, PostgreSQL, MongoDB, Cassandra. AI: GenAI, LLM automation, RAG, vector search (FAISS, HNSW, DiskANN), scikit-learn, deep learning. Languages: Python (advanced), Java, C, C++, Rust, SQL.",
     "Open source PRs: zilliztech/knowhere #1209 and #1218 (ARM SVE kernels for INT8 L2 and IP metrics, about 2x faster retrieval); tikv/yatp #95 (fixed SeqCst ordering and false sharing, +5% ARM64 TPC-C); facebook/rocksdb #14190 (SVE enablement and runtime detection for ARM Linux, up to 42% faster XXH3 hashing, in review); crossbeam-rs/crossbeam #1328 (load_consume swap in steal path, 18.6% lower steal latency).",
     "Personal projects: flight price tracker (React, Supabase, Amadeus API, GitHub Actions, WhatsApp alerts); telco churn classifier (Streamlit, scikit-learn, five models, BITS assignment); hotel food ordering platform (React, Supabase, Netlify, guest ordering flow plus manager dashboard, completed).",
     "Research: poster at ISC High Performance 2026 in Germany, Accelerating Milvus on Arm: SVE-Enhanced Vector Search for RAG Applications. Springer paper at ICRTC, Gesture Decoder for Communication Using Deep Learning.",
